@@ -13,7 +13,7 @@ public class Light {
 	// http://www.eclipse.org/paho/files/javadoc/index.html
 	public static void main(String[] args) throws MqttException{
 		MqttClient client = new MqttClient( 
-				"tcp://0.0.0.0:1883", //URI 
+				"tcp://52.89.121.227:1883", //URI 
 				"light",//MqttClient.generateClientId(), //ClientId 
 				new MemoryPersistence()); //Persistence
 
