@@ -1,51 +1,85 @@
 package iot.mvc;
 
-import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class DeviceObject {
-	@Id String DeviceID;
-	String Address;
-	String Name;
-	String Manufacturer;
-	ArrayList<StateObject> State;
-	// Location
-	// Type
-	// Logic/Rules?
-	
+	@Id 
+	String deviceID;
+	String address;
+	String name;
+	String manufacturer;
+	String location;
+	String type;
+
+	public DeviceObject(String deviceID,
+			String address,
+			String name,
+			String manufacturer,
+			String location,
+			String type
+			){		
+		this.deviceID = deviceID;
+		this.address = address;
+		this.name = name;
+		this.manufacturer = manufacturer;
+		this.location = location;
+		this.type = type;
+	}
+
 	public String getDeviceID() {
-		return DeviceID;
+		return deviceID;
 	}
+	
 	public void setDeviceID(String deviceID) {
-		DeviceID = deviceID;
+		this.deviceID = deviceID;
 	}
+	
 	public String getAddress() {
-		return Address;
+		return address;
 	}
+	
 	public void setAddress(String address) {
-		Address = address;
+		this.address = address;
 	}
+	
 	public String getName() {
-		return Name;
+		return name;
 	}
+	
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
+	
 	public String getManufacturer() {
-		return Manufacturer;
+		return manufacturer;
 	}
+	
 	public void setManufacturer(String manufacturer) {
-		Manufacturer = manufacturer;
+		this.manufacturer = manufacturer;
 	}
-	public ArrayList<StateObject> getState() {
-		return State;
+
+	public String getLocation() {
+		return location;
 	}
-	public void setState(ArrayList<StateObject> state) {
-		State = state;
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return "DeviceObject [DeviceID=" + DeviceID + ", Address=" + Address + ", Name=" + Name + ", Manufacturer="
-				+ Manufacturer + ", State=" + State + "]";
+		return "DeviceObject [deviceID=" + deviceID + ", address=" + address + ", name=" + name + ", manufacturer="
+				+ manufacturer + ", location=" + location + ", type=" + type + "]";
 	}
+
 }
