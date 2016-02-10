@@ -120,6 +120,36 @@ public class DAO {
 		// TODO: Need to re-think what to return and if we can get a status from mongo
 		return 0;
 	}
+	
+	/**
+	 * @param device
+	 * @return
+	 */
+	public int removeDevice(String deviceID){
+		ApplicationContext ctx = 
+				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		try {
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+
+			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
+			DeviceObject deviceToRemove = mongoOperation.findOne(findDevice, DeviceObject.class);
+			
+			System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
+			
+			// Remove from db
+			mongoOperation.remove(deviceToRemove);
+
+		} catch (BeansException e) {
+			e.printStackTrace();
+		} catch (MongoException e){
+			e.printStackTrace();
+		} finally {
+			// Close mongo operation
+			((ConfigurableApplicationContext)ctx).close();
+		}
+		// TODO: Need to re-think what to return and if we can get a status from mongo
+		return 0;
+	}
 
 	/**
 	 * @param state

@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import iot.dao.DAO;
 import iot.mvc.DeviceObject;
 
-@WebServlet("/registerDevice")
-public class registerDevice extends HttpServlet {
+@WebServlet("/removeDevice")
+public class removeDevice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public registerDevice() {
+	public removeDevice() {
 		super();
 	}
 	/**
@@ -37,17 +37,10 @@ public class registerDevice extends HttpServlet {
 		
 		// Get values from parameters
 		String deviceID = request.getParameter("deviceID");
-		String address = request.getParameter("address");
-		String name = request.getParameter("name");
-		String manufacturer = request.getParameter("manufacturer");
-		String location = request.getParameter("location");
-		String type = request.getParameter("type");
 
-		// TODO: make more robust, this is a temp solution to avoid empty inserts
+		// TODO: make more robust, this is a temp solution so avoid empty inserts
 		if (deviceID != null){
-			// Create staff objects with parameters to send to the DAO
-			DeviceObject device = new DeviceObject(deviceID, address, name, manufacturer, location, type);
-			DAO.registerDevice(device);
+			DAO.removeDevice(deviceID);
 		}
 
 		

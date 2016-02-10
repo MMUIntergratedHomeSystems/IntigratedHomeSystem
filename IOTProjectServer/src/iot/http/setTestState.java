@@ -3,6 +3,7 @@ package iot.http;
 import java.io.IOException;
 //import java.io.PrintWriter;
 //import java.util.List;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,16 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import iot.dao.DAO;
-import iot.mvc.DeviceObject;
+import iot.mvc.StateObject;
 
-@WebServlet("/registerDevice")
-public class registerDevice extends HttpServlet {
+@WebServlet("/setState")
+public class setTestState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public registerDevice() {
+	public setTestState() {
 		super();
 	}
 	/**
@@ -37,17 +38,13 @@ public class registerDevice extends HttpServlet {
 		
 		// Get values from parameters
 		String deviceID = request.getParameter("deviceID");
-		String address = request.getParameter("address");
-		String name = request.getParameter("name");
-		String manufacturer = request.getParameter("manufacturer");
-		String location = request.getParameter("location");
-		String type = request.getParameter("type");
+		String state = request.getParameter("state");
 
-		// TODO: make more robust, this is a temp solution to avoid empty inserts
+		// TODO: make more robust, this is a temp solution so avoid empty inserts
 		if (deviceID != null){
 			// Create staff objects with parameters to send to the DAO
-			DeviceObject device = new DeviceObject(deviceID, address, name, manufacturer, location, type);
-			DAO.registerDevice(device);
+			StateObject stateObj = new StateObject(deviceID, state, new Date());
+			DAO.updateState(stateObj);
 		}
 
 		
