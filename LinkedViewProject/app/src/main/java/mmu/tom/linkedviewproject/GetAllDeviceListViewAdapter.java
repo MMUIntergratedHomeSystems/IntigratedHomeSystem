@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -59,6 +60,8 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             cell.deviceId = (TextView) convertView.findViewById(R.id.device_id);
             cell.address = (TextView) convertView.findViewById(R.id.device_address);
             cell.type = (TextView) convertView.findViewById(R.id.type);
+
+            cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
             // remember to set the image to type in future nAND DONT FORGET THE get_all_devices_list_view!
             convertView.setTag(cell);
         }
@@ -74,6 +77,14 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
              cell.deviceId.setText(" " + jsonObject.getString("deviceID"));
              cell.address.setText(" "+ jsonObject.getString("address"));
              cell.type.setText(" " + jsonObject.getString("type"));
+
+            String device = jsonObject.getString("type");
+            if(device.equals("Light")){
+                cell.typeImg.setImageResource(R.mipmap.ic_lights_on);
+            }
+            else if(device.equals("Lock")){
+                cell.typeImg.setImageResource(R.mipmap.ic_lock_open_black_24dp);
+            }
             // remember to set the image to type in future
         }
         catch(JSONException e){
@@ -89,6 +100,8 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
         private TextView deviceId;
         private TextView address;
         private TextView type;
+
+        private ImageView typeImg;
         // remember to set the image to type in future
 
     }

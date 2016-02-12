@@ -38,6 +38,10 @@
             android:id="@+id/type"
             android:layout_weight="1" />
     </LinearLayout>
-
-
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/device_type"
+        android:src="@mipmap/ic_launcher"
+        />
 </LinearLayout>

@@ -19,8 +19,7 @@ import java.io.IOException;
 public class ApiConnector {
 
 
-    public JSONArray GetAllDevicesState()
-    {
+    public JSONArray GetAllDevicesState() {
         // URL for getting all customers
 
 
@@ -31,8 +30,7 @@ public class ApiConnector {
 
         HttpEntity httpEntity = null;
 
-        try
-        {
+        try {
 
             DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
             HttpGet httpGet = new HttpGet(url);
@@ -42,14 +40,12 @@ public class ApiConnector {
             httpEntity = httpResponse.getEntity();
 
 
-
         } catch (ClientProtocolException e) {
 
             // Signals error in http protocol
             e.printStackTrace();
 
             //Log Errors Here
-
 
 
         } catch (IOException e) {
@@ -80,5 +76,61 @@ public class ApiConnector {
 
     }
 
+    public JSONArray GetDeviceDetails(int DeviceID) {
+        // URL for getting all customers
+
+
+        String url = "http://52.88.194.67:8080/IOTProjectServer/registerDevice?DeviceId=" + DeviceID;
+
+        // Get HttpResponse Object from url.
+        // Get HttpEntity from Http Response Object
+
+        HttpEntity httpEntity = null;
+
+        try {
+
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+
+            httpEntity = httpResponse.getEntity();
+
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+
+            //Log Errors Here
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+
+
+    }
 
 }
+
+
