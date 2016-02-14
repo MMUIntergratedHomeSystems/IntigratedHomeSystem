@@ -1,6 +1,7 @@
 package mmu.tom.linkedviewproject;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,22 +10,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Tom on 12/02/2016.
  */
 public class DeviceDetailsActivity extends AppCompatActivity {
+
+    private static final String TAG = "ShowDevice";
 
     private EditText address;
     private EditText name;
@@ -39,6 +40,34 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_details);
 
+        Button submitButton = (Button) findViewById(R.id.submit_button);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                JSONObject postData = new JSONObject();
+
+                Log.i(TAG,"  ButtonClicked");
+                try {
+                    //set up the strings
+                    postData.put("name", name.getText().toString());
+                    postData.put("address", address.getText().toString());
+                    postData.put("manufacturer", manufacturer.getText().toString());
+                    postData.put("location", location.getText().toString());
+                    postData.put("type", type.getText().toString());
+                    postData.put("deviceID", deviceID.getText().toString());
+
+
+                    //now to post the data
+                    new SendDeviceDetails().execute("http://52.88.194.67:8080/IOTProjectServer/registerDevice", postData.toString());
+
+                    Log.i(TAG, "See What's Sending:    " + postData.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         ImageButton button1 = (ImageButton) findViewById(R.id.image_button_back);
         button1.setOnClickListener(new View.OnClickListener() {
             Class ourClass;
@@ -51,16 +80,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         });
 
 
-        Button submitButton = (Button) findViewById(R.id.submit_button);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            Class ourClass;
-
-            public void onClick(View v) {
-
-                sendDeviceDetails();
-            }
-        });
 
         setContentView(R.layout.activity_device_details);
 
@@ -94,63 +114,53 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
 
 
-
         }
 
-    public JSONArray sendDeviceDetails() {
-        // URL for getting all customers
+    private class SendDeviceDetails extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
 
-        String url = "http://52.88.194.67:8080/IOTProjectServer/registerDevice?";
+            String data = "";
 
-        // Get HttpResponse Object from url.
-        // Get HttpEntity from Http Response Object
-
-        HttpEntity httpEntity = null;
-
-        try {
-
-            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
-            HttpGet httpGet = new HttpGet(url);
-
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-
-            httpEntity = httpResponse.getEntity();
-
-
-        } catch (ClientProtocolException e) {
-
-            // Signals error in http protocol
-            e.printStackTrace();
-
-            //Log Errors Here
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        // Convert HttpEntity into JSON Array
-        JSONArray jsonArray = null;
-        if (httpEntity != null) {
+            HttpURLConnection httpURLConnection = null;
             try {
-                String entityResponse = EntityUtils.toString(httpEntity);
-                Log.e("Entity Response  : ", entityResponse);
 
-                jsonArray = new JSONArray(entityResponse);
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
 
-            } catch (JSONException e) {
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes("PostData=" + params[1]);
+                wr.flush();
+                wr.close();
+
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
             }
+
+            return data;
         }
 
-        return jsonArray;
-
-
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+        }
     }
-
 
 }
