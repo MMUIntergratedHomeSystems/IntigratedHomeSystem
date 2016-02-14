@@ -80,7 +80,7 @@ public class ApiConnector {
         // URL for getting all customers
 
 
-        String url = "http://52.88.194.67:8080/IOTProjectServer/registerDevice?DeviceId=" + DeviceID;
+        String url = "http://52.88.194.67:8080/IOTProjectServer/registerDevice?";
 
         // Get HttpResponse Object from url.
         // Get HttpEntity from Http Response Object

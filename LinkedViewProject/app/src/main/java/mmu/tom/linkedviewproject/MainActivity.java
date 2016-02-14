@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         this.GetAllDevicesListView = (ListView) this.findViewById(R.id.GetAllDevicesListView);
 
         new GetAllDevicesTask().execute(new ApiConnector());
