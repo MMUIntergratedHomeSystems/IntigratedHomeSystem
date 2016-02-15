@@ -49,7 +49,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="All Devices"
             android:id="@+id/textAllDevices"
-
             android:layout_below="@+id/viewAllDevicesButton"
             android:layout_alignRight="@+id/viewAllDevicesButton"
             android:layout_alignEnd="@+id/viewAllDevicesButton" />

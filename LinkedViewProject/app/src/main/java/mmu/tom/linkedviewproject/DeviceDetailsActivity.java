@@ -21,7 +21,7 @@ import java.net.URL;
 /**
  * Created by Tom on 12/02/2016.
  */
-public class DeviceDetailsActivity extends AppCompatActivity {
+public class DeviceDetailsActivity extends AppCompatActivity  {
 
     private static final String TAG = "ShowDevice";
 
@@ -40,12 +40,22 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
         Log.i(TAG, "  OpenedDeviceDetails");
 
+        setContentView(R.layout.activity_device_details);
+
+        this.address = (EditText) this.findViewById(R.id.edit_address);
+        this.name = (EditText) this.findViewById(R.id.edit_name);
+        this.manufacturer = (EditText) this.findViewById(R.id.edit_manufacturer);
+        this.location = (EditText) this.findViewById(R.id.edit_location);
+        this.type = (EditText) this.findViewById(R.id.edit_type);
+        this.deviceID = (EditText) this.findViewById(R.id.edit_device_id);
 
 
-        Button submitButton = (Button) findViewById(R.id.submit_button);
+        Button submitButton = (Button) findViewById(R.id.submit_data_button);
+        System.out.println(submitButton);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i(TAG, "  Button prewssed");
+                Log.i(TAG, "  Button pressed");
                 JSONObject postData = new JSONObject();
 
                 Log.i(TAG," SubmitButtonClicked");
@@ -70,14 +80,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             }
         });
 
-        setContentView(R.layout.activity_device_details);
-
-        this.address = (EditText) this.findViewById(R.id.edit_address);
-        this.name = (EditText) this.findViewById(R.id.edit_name);
-        this.manufacturer = (EditText) this.findViewById(R.id.edit_manufacturer);
-        this.location = (EditText) this.findViewById(R.id.edit_location);
-        this.type = (EditText) this.findViewById(R.id.edit_type);
-        this.deviceID = (EditText) this.findViewById(R.id.edit_device_id);
 
     }
 
@@ -140,14 +142,16 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                     httpURLConnection.disconnect();
                 }
             }
-
+            System.out.println("data = " + data);
             return data;
+
+
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            System.out.println( "wtf is result" + result); // this is expecting a response code to be sent from your server upon receiving the POST data
         }
     }
 
