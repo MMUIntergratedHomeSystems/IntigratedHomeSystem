@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_button_new"
-        android:src="@mipmap/ic_add_black_24dp"
+        android:src="@mipmap/ic_add_black_24dp_2x"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

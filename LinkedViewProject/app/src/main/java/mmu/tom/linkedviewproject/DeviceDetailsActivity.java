@@ -1,6 +1,5 @@
 package mmu.tom.linkedviewproject;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,20 +34,25 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_details);
 
-        Button submitButton = (Button) findViewById(R.id.submit_button);
+        Log.i(TAG, "  OpenedDeviceDetails");
 
+
+
+        Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.i(TAG, "  Button prewssed");
                 JSONObject postData = new JSONObject();
 
-                Log.i(TAG,"  ButtonClicked");
+                Log.i(TAG," SubmitButtonClicked");
                 try {
                     //set up the strings
                     postData.put("name", name.getText().toString());
+
                     postData.put("address", address.getText().toString());
                     postData.put("manufacturer", manufacturer.getText().toString());
                     postData.put("location", location.getText().toString());
@@ -66,21 +69,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        ImageButton button1 = (ImageButton) findViewById(R.id.image_button_back);
-        button1.setOnClickListener(new View.OnClickListener() {
-            Class ourClass;
-
-            public void onClick(View v) {
-
-                Intent intent = new Intent(DeviceDetailsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
 
         setContentView(R.layout.activity_device_details);
 
