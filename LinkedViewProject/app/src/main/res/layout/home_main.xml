@@ -9,8 +9,8 @@
         android:layout_gravity="center_horizontal">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/addNewDeviceButton"
             android:src="@mipmap/ic_add_black_24dp"
             android:background="@null"
@@ -32,8 +32,8 @@
             android:layout_alignParentEnd="true" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/viewAllDevicesButton"
             android:src="@mipmap/ic_lights_on"
             android:layout_marginLeft="76dp"

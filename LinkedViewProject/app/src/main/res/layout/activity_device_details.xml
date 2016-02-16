@@ -65,30 +65,7 @@
     </TableRow>
 
 
-    <TableRow
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            android:id="@+id/textView"
-            android:layout_column ="0"
-            android:layout_weight="1"/>
-
-        <EditText
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_address"
-            android:layout_column ="0"
-            android:layout_weight="1"/>
-
-    </TableRow>
-
-    <TableRow
+        <TableRow
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">

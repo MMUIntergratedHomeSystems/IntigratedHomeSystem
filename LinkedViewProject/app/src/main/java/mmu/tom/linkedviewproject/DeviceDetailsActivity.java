@@ -42,7 +42,6 @@ public class DeviceDetailsActivity extends AppCompatActivity  {
 
         setContentView(R.layout.activity_device_details);
 
-        this.address = (EditText) this.findViewById(R.id.edit_address);
         this.name = (EditText) this.findViewById(R.id.edit_name);
         this.manufacturer = (EditText) this.findViewById(R.id.edit_manufacturer);
         this.location = (EditText) this.findViewById(R.id.edit_location);
@@ -63,7 +62,6 @@ public class DeviceDetailsActivity extends AppCompatActivity  {
                     //set up the strings
                     postData.put("name", name.getText().toString());
 
-                    postData.put("address", address.getText().toString());
                     postData.put("manufacturer", manufacturer.getText().toString());
                     postData.put("location", location.getText().toString());
                     postData.put("type", type.getText().toString());
@@ -93,10 +91,10 @@ public class DeviceDetailsActivity extends AppCompatActivity  {
                 JSONObject device = jsonArray.getJSONObject(0);
 
                 name.setText(device.getString("name"));
-                address.setText(device.getString("address"));
-                location.setText(device.getString("location"));
                 manufacturer.setText(device.getString("manufacturer"));
                 type.setText(device.getString("type"));
+                deviceID.setText(device.getString("deviceID"));
+
             }
             catch(Exception e){
                 e.printStackTrace();

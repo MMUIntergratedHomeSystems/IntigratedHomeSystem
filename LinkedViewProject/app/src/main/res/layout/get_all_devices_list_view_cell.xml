@@ -6,11 +6,18 @@
     android:padding="10dp"
     android:gravity="center_vertical|center_horizontal">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/device_type"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center_vertical" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3">
+        android:layout_weight="0.77">
 
         <TextView
             android:layout_width="fill_parent"
@@ -28,20 +35,15 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="address"
-            android:id="@+id/device_address"
-            android:layout_weight="1" />
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:text="type"
             android:id="@+id/type"
             android:layout_weight="1" />
     </LinearLayout>
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/device_type"
-        android:src="@mipmap/ic_launcher"
-        />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="New Switch"
+        android:id="@+id/switch1"
+        android:layout_gravity="center_vertical" />
 </LinearLayout>

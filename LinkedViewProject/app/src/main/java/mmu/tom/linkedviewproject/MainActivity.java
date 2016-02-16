@@ -6,13 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "ShowDevice";
@@ -26,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.i(TAG, "  OPened this");
-
 
 
         ImageButton button1 = (ImageButton) findViewById(R.id.image_button_new);
@@ -44,37 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         this.GetAllDevicesListView = (ListView) this.findViewById(R.id.GetAllDevicesListView);
 
         new GetAllDevicesTask().execute(new ApiConnector());
-
-        GetAllDevicesListView.setOnItemClickListener (new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-
-                try
-
-                {
-                    //GetDevice that was clicked
-                    JSONObject deviceClicked = jsonArray.getJSONObject(position);
-
-
-                    //Send DeviceId
-                    Intent showDetails = new Intent(getApplicationContext(), DeviceDetailsActivity.class);
-                    showDetails.putExtra("deviceID", deviceClicked.getString("deviceID"));
-                }
-
-                catch(
-                        JSONException e
-                        )
-
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
+
+
 
     public void setListAdapter(JSONArray jsonArray){
 

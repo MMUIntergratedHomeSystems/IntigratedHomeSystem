@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -20,6 +21,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
     private JSONArray dataArray;
     private Activity activity;
+    private String state;
 
     private static LayoutInflater inflater = null;
 
@@ -32,6 +34,9 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+
+
     @Override
     public int getCount() {
         return this.dataArray.length();
@@ -49,8 +54,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // set up the convert view if it's null
+          // set up the convert view if it's null
         ListCell cell;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.get_all_devices_list_view_cell,null);
@@ -58,13 +62,16 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
             cell.deviceName = (TextView) convertView.findViewById(R.id.device_name);
             cell.deviceId = (TextView) convertView.findViewById(R.id.device_id);
-            cell.address = (TextView) convertView.findViewById(R.id.device_address);
             cell.type = (TextView) convertView.findViewById(R.id.type);
 
+            cell.aSwitch = (Switch) convertView.findViewById(R.id.switch1);
+
             cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
-            // remember to set the image to type in future nAND DONT FORGET THE get_all_devices_list_view!
+
+
             convertView.setTag(cell);
-        }
+
+            }
         else{
             cell=(ListCell) convertView.getTag();
         }
@@ -75,8 +82,9 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
              cell.deviceName.setText(jsonObject.getString("name"));
              cell.deviceId.setText(" " + jsonObject.getString("deviceID"));
-             cell.address.setText(" "+ jsonObject.getString("address"));
              cell.type.setText(" " + jsonObject.getString("type"));
+
+
 
             String device = jsonObject.getString("type");
             if(device.equals("Light")){
@@ -98,10 +106,11 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
         private TextView deviceName;
         private TextView deviceId;
-        private TextView address;
         private TextView type;
 
         private ImageView typeImg;
+
+        private Switch aSwitch;
         // remember to set the image to type in future
 
     }
