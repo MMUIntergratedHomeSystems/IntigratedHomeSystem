@@ -4,6 +4,7 @@ import java.io.IOException;
 //import java.io.PrintWriter;
 //import java.util.List;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import iot.dao.DAO;
+import iot.mvc.DeviceObject;
 import iot.mvc.StateObject;
 
 @WebServlet("/setState")
@@ -54,6 +58,21 @@ public class setTestState extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		//doGet(request, response);
+		Gson gson = new Gson();
+		StateObject stateObj;
+		DAO DAO = new DAO();
+		
+		 Map<String, String[]> allMap=request.getParameterMap();
+		    for(String key:allMap.keySet()){
+		        String[] strArr=(String[])allMap.get(key);
+		        for(String val:strArr){
+		            //System.out.println(val);
+		        	stateObj = gson.fromJson(val, StateObject.class);
+		        	stateObj.setDateStored(new Date());
+		            //System.out.println(device);
+		        	DAO.updateState(stateObj);
+		        }   
+		    }	
 	}	
 }

@@ -6,22 +6,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.mapreduce.GroupBy;
+import org.springframework.data.mongodb.core.WriteResultChecking;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.mongodb.MongoException;
-import com.mongodb.ReadPreference;
+import com.mongodb.WriteConcern;
 
 import iot.mvc.DeviceObject;
 import iot.mvc.StateObject;
@@ -29,7 +24,6 @@ import iot.mvc.StateObject;
 public class DAO {
 	// TODO: Connection pooling
 	// TODO: Look at how to return info from DB transactions
-	// FIXME: Null pointer when no deviceID is found
 
 	/**
 	 * @return - Returns a List of all DeviceObject info stored in the database
@@ -101,13 +95,18 @@ public class DAO {
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
+			mongoOperation.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+			WriteResultChecking resultChecking = null;
+			mongoOperation.setWriteResultChecking(resultChecking);
 			// save
 			mongoOperation.save(device);
 
 			// DEBUG: show number of entries
 			List<DeviceObject> DeviceList = mongoOperation.findAll(DeviceObject.class);
 			System.out.println("Number of entries: "+ DeviceList.size());
+			
+
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -284,18 +283,37 @@ public class DAO {
 		try {
 			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
 
+			
+			//BasicDBObject dbObj = new BasicDBObject();
+			
+			
 			Query searchState = new Query();
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
-			
-			//stateList =  mongoOperation.createCollection(StateObject.class).distinct("deviceID", searchState);
+			//DBCollection bdCol = mongoOperation.createCollection(StateObject.class);
+			//System.out.println("\n\nHERE:\n"+mongoOperation.getCollection("Device").distinct("deviceID")+"\n\n");
+			//stateList =  mongoOperation.createCollection(StateObject.class).distinct("deviceID");
 
-//			AggregationOperation match = Aggregation.match(searchState);
-//			AggregationOperation group = Aggregation.group("deviceID");
-//			AggregationOperation sort = Aggregation.sort(Sort.Direction.DESC, "dateStored");
-//			Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("deviceID"),group,sort);
+			
+//			String json = "[{ \"$sort\": { \"deviceID\": 1, \"dateStored\": 1 } }, { \"$group\": { \"_id\": \"$deviceID\", \"lastSalesDate\": { \"$last\": \"$dateStored\" } } } ]";
+//			BasicDBList pipeline = (BasicDBList)com.mongodb.util.JSON.parse(json);
+//		    BasicDBObject aggregation = new BasicDBObject("aggregate",StateObject.class)
+//		            .append("pipeline",pipeline);
+//		    System.out.println(aggregation);
 //
-//			AggregationResults<StateObject> groupResults = mongoOperation.aggregate(aggregation, StateObject.class, StateObject.class);
-//			stateList = groupResults.getMappedResults();
+//		    CommandResult commandResult = mongoOperation.executeCommand(aggregation);
+//			System.out.println("\n\nHERE:\n"+commandResult);
+			//AggregationOperation match = Aggregation.match(searchState);
+//			AggregationOperation group = Aggregation.group("deviceID");
+//			AggregationOperation sort = Aggregation.sort(Direction.DESC, "dateStored");
+//			AggregationOperation project = Aggregation.project("dateStored");
+//			AggregationOperation project2 = Aggregation.project("deviceID");
+			//Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("deviceID"),group,sort);
+//			Aggregation aggregation = Aggregation.newAggregation(StateObject.class, project, project2, group, sort);
+//			AggregationResults<StateObject> result = mongoOperation.aggregate(aggregation, "eft_transactions", StateObject.class);
+//			System.out.println("\n\nHERE:\n"+result);
+			//mongoOperation.getCollection("Device").aggregate((List<DBObject>) aggregation);
+			//AggregationResults<StateObject> groupResults = mongoOperation.aggregate(aggregation, StateObject.class, StateObject.class);
+			//System.out.println("\n\nHERE:\n"+groupResults.getMappedResults());
 
 			// find the device
 			stateList = mongoOperation.find(searchState, StateObject.class);

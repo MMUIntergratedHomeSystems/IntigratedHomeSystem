@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import iot.dao.DAO;
-import iot.mvc.DeviceObject;
 
 @WebServlet("/removeDevice")
 public class removeDevice extends HttpServlet {

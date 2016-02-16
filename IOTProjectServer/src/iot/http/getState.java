@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import iot.dao.DAO;
-import iot.mvc.DeviceObject;
 import iot.mvc.StateObject;
 
 @WebServlet("/getState")

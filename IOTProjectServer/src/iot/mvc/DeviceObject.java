@@ -3,25 +3,22 @@ package iot.mvc;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "Device")
 public class DeviceObject {
 	@Id 
 	String deviceID;
-	String address;
 	String name;
 	String manufacturer;
 	String location;
 	String type;
 
 	public DeviceObject(String deviceID,
-			String address,
 			String name,
 			String manufacturer,
 			String location,
 			String type
 			){		
 		this.deviceID = deviceID;
-		this.address = address;
 		this.name = name;
 		this.manufacturer = manufacturer;
 		this.location = location;
@@ -34,14 +31,6 @@ public class DeviceObject {
 	
 	public void setDeviceID(String deviceID) {
 		this.deviceID = deviceID;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	
 	public String getName() {
@@ -78,7 +67,7 @@ public class DeviceObject {
 
 	@Override
 	public String toString() {
-		return "DeviceObject [deviceID=" + deviceID + ", address=" + address + ", name=" + name + ", manufacturer="
+		return "DeviceObject [deviceID=" + deviceID + ", name=" + name + ", manufacturer="
 				+ manufacturer + ", location=" + location + ", type=" + type + "]";
 	}
 
