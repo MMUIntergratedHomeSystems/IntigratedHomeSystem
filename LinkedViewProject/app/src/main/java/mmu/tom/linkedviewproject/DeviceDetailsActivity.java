@@ -25,7 +25,6 @@ public class DeviceDetailsActivity extends AppCompatActivity  {
 
     private static final String TAG = "ShowDevice";
 
-    private EditText address;
     private EditText name;
     private EditText manufacturer;
     private EditText location;
