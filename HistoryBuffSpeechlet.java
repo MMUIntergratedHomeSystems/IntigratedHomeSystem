@@ -83,8 +83,15 @@ public class HistoryBuffSpeechlet implements Speechlet {
 		Intent intent = request.getIntent();
 		String intentName = intent.getName();
 
-		if ("GetCustomResponse".equals(intentName)) {
-			String speechOutput = GetAllDevicesState();
+		if ("GetState".equals(intentName)) {
+			String speechOutput = GetState();
+			String speechoutput = speechOutput.toString();
+			String repromptText = "Do you want more";
+
+			return newAskResponse(speechoutput, false, repromptText, false);	
+		}
+		if ("GetHistory".equals(intentName)) {
+			String speechOutput = GetHistory();
 			String speechoutput = speechOutput.toString();
 			String repromptText = "Do you want more";
 
@@ -130,17 +137,18 @@ public class HistoryBuffSpeechlet implements Speechlet {
 	 *         the user
 	 */
 	private SpeechletResponse getWelcomeResponse() {
-		String speechOutput = "Welcome to Intelligent Home,"
-				+ "To retrieve device status say, retrieve";
+		String options ="To retrieve device status say, retrieve. "
+				+"To get history of all device states, say history";
+		String speechOutput = "Welcome to Intelligent Home,"+options;
 		// If the user either does not reply to the welcome message
 		// or says something that is not
 		// understood, they will be prompted again with this text.
-		String repromptText = "Say, Retrieve";
+		String repromptText = "Please choose one of the following options, "+options;
 
 		return newAskResponse(speechOutput, false, repromptText, false);
 	}
 
-	public String GetAllDevicesState() {
+	public String GetState() {
 		// URL for getting all customers
 		// Get HttpResponse Object from url.
 		// Get HttpEntity from Http Response Object
@@ -188,7 +196,7 @@ public class HistoryBuffSpeechlet implements Speechlet {
 			e.printStackTrace();
 		}
 		try{
-			result =result+(name +", is of type "+ type+".");
+			result =result+(name +", is of type "+ type+". ");
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,6 +205,69 @@ public class HistoryBuffSpeechlet implements Speechlet {
 		return result;
 	}
 
+	
+	public String GetHistory() {
+		// URL for getting all customers
+		// Get HttpResponse Object from url.
+		// Get HttpEntity from Http Response Object
+
+		HttpEntity httpEntity = null;
+
+		try {
+			// Default HttpClient
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(URL_PREFIX + "getState");
+			HttpResponse httpResponse = httpClient.execute(httpGet);
+			httpEntity = httpResponse.getEntity();
+		} catch (ClientProtocolException e) {
+			// Signals error in http protocol
+			e.printStackTrace();
+			// Log Errors Here
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Convert HttpEntity into JSON Array
+		JSONArray jsonArray = null;
+
+		if (httpEntity != null) {
+			try {
+				String entityResponse = EntityUtils.toString(httpEntity);
+				jsonArray = new JSONArray(entityResponse);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		String name = null,state = null, when = null, result = "";
+		for(int i = 0; i < jsonArray.length(); i++){
+		try {
+			name = jsonArray.getJSONObject(i).getString("deviceID");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			state = jsonArray.getJSONObject(i).getString("state");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			when = jsonArray.getJSONObject(i).getString("dateStored");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try{
+			result =result+(name +", is "+ state+". It was used on " + when+". ");
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		return result;
+	}
 	/**
 	 * Wrapper for creating the Ask response from the input strings.
 	 * 
