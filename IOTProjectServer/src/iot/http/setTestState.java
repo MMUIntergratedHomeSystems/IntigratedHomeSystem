@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import iot.dao.DAO;
+import iot.mqtt.Set;
 import iot.mvc.DeviceObject;
 import iot.mvc.StateObject;
 
@@ -33,11 +34,6 @@ public class setTestState extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		response.setStatus(HttpServletResponse.SC_OK);
-//		response.setContentType("text/html");
-//		PrintWriter out = response.getWriter();
-//		out.print("Here is some test data");
-//		out.close();
 		DAO DAO = new DAO();
 		
 		// Get values from parameters
@@ -50,6 +46,9 @@ public class setTestState extends HttpServlet {
 			StateObject stateObj = new StateObject(deviceID, state, new Date());
 			DAO.updateState(stateObj);
 		}
+		
+	//	Set set = new Set();
+	//	set.send("light123","on");
 
 		
 	}

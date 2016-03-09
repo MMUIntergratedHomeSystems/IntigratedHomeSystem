@@ -1,0 +1,14 @@
+/* AUTOMATICALLY GENERATED */
+/* DO NOT EDIT */
+
+grant {
+  permission java.security.AllPermission;
+  
+  permission java.net.SocketPermission "*:1024-65535", "connect,accept,resolve,listen";
+	permission java.net.SocketPermission "*:80", "connect";
+	permission java.net.SocketPermission "*:900", "connect,accept,resolve,listen";
+	permission java.io.FilePermission "/opt/hivemq/plugins/-", "read";
+	permission java.io.FilePermission "/srv/tomcat/webapps/-", "read";
+	permission java.lang.management.ManagementPermission, "monitor";
+};
+

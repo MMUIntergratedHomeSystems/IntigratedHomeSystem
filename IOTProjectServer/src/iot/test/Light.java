@@ -18,7 +18,7 @@ public class Light {
 				new MemoryPersistence()); //Persistence
 
 		client.connect();
-		client.subscribe("home/things/light", 1);
+		client.subscribe("home/light/light", 1);
 		System.out.println(client.isConnected());
 
 		client.setCallback(new MqttCallback() {			 
@@ -36,7 +36,6 @@ public class Light {
 				} else {
 					System.out.println("Light Off");
 				}
-
 			}
 
 			@Override
