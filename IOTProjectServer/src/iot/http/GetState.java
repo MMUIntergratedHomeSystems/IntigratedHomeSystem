@@ -17,13 +17,13 @@ import iot.dao.DAO;
 import iot.mvc.StateObject;
 
 @WebServlet("/getState")
-public class getState extends HttpServlet {
+public class GetState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getState() {
+	public GetState() {
 		super();
 	}
 	/**

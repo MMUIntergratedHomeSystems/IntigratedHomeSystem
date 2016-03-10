@@ -1,25 +1,55 @@
 //package iot.rmi;
 //
-//
-//import java.io.File;
-//import java.rmi.Naming;
-//import java.rmi.RMISecurityManager;
 //import java.rmi.RemoteException;
 //import java.rmi.registry.LocateRegistry;
 //import java.rmi.registry.Registry;
 //import java.rmi.server.UnicastRemoteObject;
 //
+//import javax.annotation.PostConstruct;
 //import javax.inject.Inject;
 //
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //
+//import com.hivemq.spi.PluginEntryPoint;
 //import com.hivemq.spi.services.ClientService;
 //
-//public class RMIServer {
-//	public RMIServer(){
+//public class RMIServer {	
+//	Logger log = LoggerFactory.getLogger(RMIServer.class);
+//	public final ClientService clientService;
+//
+//	@Inject
+//	public RMIServer(final ClientService clientService){
 //		super();
+//		log.info("RMI Server.");
+//		this.clientService = clientService;
 //	}
+//
+//	@PostConstruct
+//	public void postConstruct() {
+//		// Add Call backs here first!!
+//
+//		RMIImpl impl;
+//		try {
+//			// Start rmiregistery
+//			// need to set codebase?
+//			// check policy settings too
+//			//Registry registry =LocateRegistry.createRegistry(1099);
+//			impl = new RMIImpl("somthing", clientService);
+//			RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(impl, 0);
+//			Registry registry = LocateRegistry.getRegistry();
+//			registry.rebind("HivePlugin", stub);
+//
+//
+//			//registry = LocateRegistry.getRegistry(1099);
+//			//registry.rebind("Hello", new RMIImpl("Hello, world!"));
+//			log.info("RMI Server is ready.");
+//		} catch (RemoteException e) {
+//			log.info("Error: "+e);
+//		}
+//	}
+//
+//
 //	//private final ClientService clientService;
 //
 //	//@Inject	
@@ -35,11 +65,11 @@
 //	//public static boolean isRegistered = false; 
 //	//public static RMIInterface service; 
 //	//public RMIServer(){
-//		public static void main (String[] argv)	{
-//		Logger log = LoggerFactory.getLogger(RMIServer.class);
-//		log.info("RMI Server.");
+//	//		public static void main (String[] argv)	{
+//	//		Logger log = LoggerFactory.getLogger(RMIServer.class);
+//	//		log.info("RMI Server.");
 //
-//		/*System.setProperty("java.security.policy","file:./security.policy");
+//	/*System.setProperty("java.security.policy","file:./security.policy");
 //
 //		if (System.getSecurityManager() == null) {
 //			log.info("RMI Server null.");
@@ -47,8 +77,8 @@
 //			log.info("RMI Server created.");
 //		}*/
 //
-//		//if(!isRegistered){ 
-//		/*try { 
+//	//if(!isRegistered){ 
+//	/*try { 
 //			log.info("1");
 //			service = new RMIImpl(); 
 //			log.info("2");
@@ -64,8 +94,8 @@
 //
 //
 //			log.info("Remote service bound"); */
-//			//	isRegistered = true; 
-//		
+//	//	isRegistered = true; 
+//
 //	/*	try{
 //		Naming.rebind("Hello", new RMIImpl("Hello, world!"));
 //		log.info("Remote service bound");
@@ -73,8 +103,8 @@
 //			log.info("Remote service exception: "+e); 
 //		} 
 //		log.info("RMI Server is ready.");*/
-//		//} 
-//	}
+//	//} 
+//}
 //}
 //
 ////	try {

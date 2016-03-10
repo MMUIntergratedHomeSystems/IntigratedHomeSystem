@@ -46,7 +46,7 @@ public class MogoTest {
 		//		state.setDateStored(new Date());
 		//		test.add(state);
 
-		DeviceObject Device = new DeviceObject("Test2", "home/things/light", "side light", null, null);
+		DeviceObject Device = new DeviceObject("Test2", null, "home/things/light", "side light", null, null, false, null);
 
 		// save
 		mongoOperation.save(Device);

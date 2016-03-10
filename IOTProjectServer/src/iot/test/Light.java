@@ -14,7 +14,7 @@ public class Light {
 	public static void main(String[] args) throws MqttException{
 		MqttClient client = new MqttClient( 
 				"tcp://52.88.194.67:1883", //URI 
-				"light",//MqttClient.generateClientId(), //ClientId 
+				"test1",//MqttClient.generateClientId(), //ClientId 
 				new MemoryPersistence()); //Persistence
 
 		client.connect();

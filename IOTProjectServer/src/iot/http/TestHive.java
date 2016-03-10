@@ -2,14 +2,6 @@ package iot.http;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import java.net.URLClassLoader;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,17 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import iot.rmi.RMIClient;
-import iot.test.RMIInterface;
+import iot.mqtt.MqttServer;
+import iot.mqtt.ResponseModel;
 
 @WebServlet("/testHive")
-public class testHive extends HttpServlet {
+public class TestHive extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public testHive() {
+	public TestHive() {
 		super();
 	}
 	/**
@@ -35,13 +27,24 @@ public class testHive extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RMIClient client = new RMIClient();
+		/*RMIClient client = new RMIClient();
 		String output = null;
 		try {
 			output = String.valueOf(client.isDeviceConncted("test"));
 		} catch (NotBoundException e) {
 			output += e;
-		}
+		}*/
+		
+		ResponseModel resp;
+		String output = null;
+		MqttServer server = new MqttServer();
+		
+		resp = server.send("light123","on");
+		output += resp.toString();
+		resp = server.send("egg","on");
+		output += resp.toString();
+		resp = server.send("asd","on");
+		output += resp.toString();
 		
 		PrintWriter out = response.getWriter();
 		out.print(output);
