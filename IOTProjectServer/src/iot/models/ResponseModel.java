@@ -1,4 +1,4 @@
-package iot.mqtt;
+package iot.models;
 
 public class ResponseModel {
 	Boolean sucsess;

@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.core.query.Query;
 //import org.springframework.data.mongodb.core.query.Update;
 
 import iot.dao.SpringMongoConfig;
-import iot.mvc.DeviceObject;
-import iot.mvc.StateObject;
+import iot.models.DeviceModel;
+import iot.models.StateModel;
 
 public class MogoTest {
 
@@ -24,14 +24,14 @@ public class MogoTest {
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
-		StateObject state = new StateObject("Test3", "off", new Date());
+		StateModel state = new StateModel("Test3", "off", new Date());
 		mongoOperation.save(state);
-		state = new StateObject("Test3", "on", new Date());
+		state = new StateModel("Test3", "on", new Date());
 		mongoOperation.save(state);
 //		state = new StateObject("Test", "off", new Date());
 //		mongoOperation.save(state);
 
-		List<StateObject> listofstates = mongoOperation.findAll(StateObject.class);
+		List<StateModel> listofstates = mongoOperation.findAll(StateModel.class);
 		System.out.println(listofstates);
 
 		//		ArrayList<StateObject> test = new ArrayList<StateObject>();
@@ -46,7 +46,7 @@ public class MogoTest {
 		//		state.setDateStored(new Date());
 		//		test.add(state);
 
-		DeviceObject Device = new DeviceObject("Test2", null, "home/things/light", "side light", null, null, false, null);
+		DeviceModel Device = new DeviceModel("Test2", null, "home/things/light", "side light", null, null, false, null);
 
 		// save
 		mongoOperation.save(Device);
@@ -58,7 +58,7 @@ public class MogoTest {
 		Query searchDeviceQuery = new Query(Criteria.where("DeviceID").is("Test"));
 
 		// find the device
-		DeviceObject savedDevice = mongoOperation.findOne(searchDeviceQuery, DeviceObject.class);
+		DeviceModel savedDevice = mongoOperation.findOne(searchDeviceQuery, DeviceModel.class);
 		System.out.println("Saved Device: "+savedDevice);
 
 
@@ -79,7 +79,7 @@ public class MogoTest {
 	//	mongoOperation.remove(searchDeviceQuery, DeviceObject.class);
 
 		// show number of entries
-		List<DeviceObject> DeviceList = mongoOperation.findAll(DeviceObject.class);
+		List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
 		System.out.println("Number of entries"+ DeviceList.size());
 
 		((ConfigurableApplicationContext)ctx).close();

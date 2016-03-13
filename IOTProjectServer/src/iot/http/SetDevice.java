@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import iot.dao.DAO;
-import iot.mvc.DeviceObject;
+import iot.models.DeviceModel;
 
 @WebServlet(urlPatterns = {"/setDevice", "/registerDevice"})
 public class SetDevice extends HttpServlet {
@@ -30,7 +30,6 @@ public class SetDevice extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DAO DAO = new DAO();
-		System.out.println("get");
 		// Get values from parameters
 		String deviceID = request.getParameter("deviceID");
 		String houseID = request.getParameter("houseID");
@@ -44,7 +43,7 @@ public class SetDevice extends HttpServlet {
 		// TODO: make more robust, this is a temp solution to avoid empty inserts
 		if (deviceID != null){
 			// Create staff objects with parameters to send to the DAO
-			DeviceObject device = new DeviceObject(deviceID, houseID, name, manufacturer, location, type, connected, currentState);
+			DeviceModel device = new DeviceModel(deviceID, houseID, name, manufacturer, location, type, connected, currentState);
 			DAO.registerDevice(device);
 		}
 
@@ -55,22 +54,17 @@ public class SetDevice extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Post");
 		Gson gson = new Gson();
-		DeviceObject device;
+		DeviceModel device;
 		DAO DAO = new DAO();
 		
 		 Map<String, String[]> allMap=request.getParameterMap();
 		    for(String key:allMap.keySet()){
 		        String[] strArr=(String[])allMap.get(key);
 		        for(String val:strArr){
-		            System.out.println(val);
-		            device = gson.fromJson(val, DeviceObject.class);
-		            System.out.println(device);
+		            device = gson.fromJson(val, DeviceModel.class);
 		            DAO.registerDevice(device);
 		        }   
 		    }		
-		
-		//doGet(request, response);
 	}	
 }

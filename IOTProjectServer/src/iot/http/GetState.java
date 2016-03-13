@@ -14,11 +14,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import iot.dao.DAO;
-import iot.mvc.StateObject;
+import iot.models.StateModel;
 
 @WebServlet("/getState")
 public class GetState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	HttpUtils utils = new HttpUtils();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,28 +41,25 @@ public class GetState extends HttpServlet {
 		
 		if (deviceID != null){
 			if (log != null){
-				List<StateObject> state = DAO.getStateInfo(deviceID);
+				List<StateModel> state = DAO.getStateInfo(deviceID);
 				output = gson.toJson(state);
 			} else {
-				StateObject state = DAO.getLastStateInfo(deviceID);
+				StateModel state = DAO.getLastStateInfo(deviceID);
 				output = gson.toJson(state);
 			}
 		} else {
 			if (log != null){
-				List<StateObject> state = DAO.getAllStateInfo();
+				List<StateModel> state = DAO.getAllStateInfo();
 				output = gson.toJson(state);
 			} else {
 				// TODO: need to return only last known for each
-				List<StateObject> state = DAO.getAllLastStateInfo();
+				List<StateModel> state = DAO.getAllLastStateInfo();
 				output = gson.toJson(state);
 			}
 		}
 			
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		out.print(output);
-		out.close();
+		// Print output
+		utils.printJson(response, output);
 		
 		
 	}

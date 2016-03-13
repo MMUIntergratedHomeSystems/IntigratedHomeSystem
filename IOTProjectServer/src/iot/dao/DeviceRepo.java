@@ -6,13 +6,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 //import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
-import iot.mvc.DeviceObject;
+import iot.models.DeviceModel;
 
-public interface DeviceRepo extends MongoRepository<DeviceObject, String>{//, QueryDslPredicateExecutor<DeviceObject>{
+public interface DeviceRepo extends MongoRepository<DeviceModel, String>{//, QueryDslPredicateExecutor<DeviceObject>{
 	@Query("{'deviceID' : ?0}")
-	List<DeviceObject> findDeviceByID(String deviceID);
+	List<DeviceModel> findDeviceByID(String deviceID);
 
-	List<DeviceObject> getAll();
+	List<DeviceModel> getAll();
 	
 	// Find by room
 	// Find by type

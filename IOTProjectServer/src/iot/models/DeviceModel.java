@@ -1,10 +1,10 @@
-package iot.mvc;
+package iot.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Device")
-public class DeviceObject {
+public class DeviceModel {
 	@Id 
 	String deviceID;
 	String houseID;
@@ -15,7 +15,7 @@ public class DeviceObject {
 	boolean connected;
 	String currentState;
 
-	public DeviceObject(String deviceID, String houseID, String name, String manufacturer, String location, String type,
+	public DeviceModel(String deviceID, String houseID, String name, String manufacturer, String location, String type,
 			boolean connected, String currentState) {
 		super();
 		this.deviceID = deviceID;

@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import iot.dao.DAO;
-import iot.mvc.StateObject;
+import iot.models.StateModel;
 
-@WebServlet("/setState")
+@WebServlet("/setTestState")
 public class SetTestState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class SetTestState extends HttpServlet {
 		// TODO: make more robust, this is a temp solution so avoid empty inserts
 		if (deviceID != null){
 			// Create staff objects with parameters to send to the DAO
-			StateObject stateObj = new StateObject(deviceID, state, new Date());
+			StateModel stateObj = new StateModel(deviceID, state, new Date());
 			DAO.updateState(stateObj);
 		}		
 	}
@@ -50,7 +50,7 @@ public class SetTestState extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doGet(request, response);
 		Gson gson = new Gson();
-		StateObject stateObj;
+		StateModel stateObj;
 		DAO DAO = new DAO();
 		
 		 Map<String, String[]> allMap=request.getParameterMap();
@@ -58,7 +58,7 @@ public class SetTestState extends HttpServlet {
 		        String[] strArr=(String[])allMap.get(key);
 		        for(String val:strArr){
 		            //System.out.println(val);
-		        	stateObj = gson.fromJson(val, StateObject.class);
+		        	stateObj = gson.fromJson(val, StateModel.class);
 		        	stateObj.setDateStored(new Date());
 		            //System.out.println(device);
 		        	DAO.updateState(stateObj);

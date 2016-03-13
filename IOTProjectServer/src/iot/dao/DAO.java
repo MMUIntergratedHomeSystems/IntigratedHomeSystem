@@ -18,8 +18,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
-import iot.mvc.DeviceObject;
-import iot.mvc.StateObject;
+import iot.models.DeviceModel;
+import iot.models.StateModel;
 
 public class DAO {
 	// TODO: Connection pooling
@@ -28,10 +28,10 @@ public class DAO {
 	/**
 	 * @return - Returns a List of all DeviceObject info stored in the database
 	 */
-	public List<DeviceObject> getAllDeviceInfo(){
+	public List<DeviceModel> getAllDeviceInfo(){
 		// TODO: Need to think what to return; all of the information, 
 		// or combine with last known status
-		List<DeviceObject> DeviceList = null;
+		List<DeviceModel> DeviceList = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -39,7 +39,7 @@ public class DAO {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			// Get all
-			DeviceList = mongoOperation.findAll(DeviceObject.class);
+			DeviceList = mongoOperation.findAll(DeviceModel.class);
 			System.out.println("Number of entries"+ DeviceList.size());
 
 		} catch (BeansException e) {
@@ -58,9 +58,9 @@ public class DAO {
 	 * @param deviceID
 	 * @return
 	 */
-	public DeviceObject getDeviceInfo(String deviceID){
+	public DeviceModel getDeviceInfo(String deviceID){
 
-		DeviceObject device = null;
+		DeviceModel device = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -70,7 +70,7 @@ public class DAO {
 			Query searchDeviceID = new Query(Criteria.where("deviceID").is(deviceID));
 
 			// find the device
-			device = mongoOperation.findOne(searchDeviceID, DeviceObject.class);
+			device = mongoOperation.findOne(searchDeviceID, DeviceModel.class);
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -88,7 +88,7 @@ public class DAO {
 	 * @param device
 	 * @return
 	 */
-	public int registerDevice(DeviceObject device){
+	public int registerDevice(DeviceModel device){
 		// Save registered device could do with better error 
 		// checking need to look into how to get more info back from mongo
 		System.out.println(device);
@@ -103,7 +103,7 @@ public class DAO {
 			mongoOperation.save(device);
 
 			// DEBUG: show number of entries
-			List<DeviceObject> DeviceList = mongoOperation.findAll(DeviceObject.class);
+			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
 			System.out.println("Number of entries: "+ DeviceList.size());
 			
 
@@ -131,7 +131,7 @@ public class DAO {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
-			DeviceObject deviceToRemove = mongoOperation.findOne(findDevice, DeviceObject.class);
+			DeviceModel deviceToRemove = mongoOperation.findOne(findDevice, DeviceModel.class);
 			
 			System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
 			
@@ -154,7 +154,7 @@ public class DAO {
 	 * @param state
 	 * @return
 	 */
-	public int updateState(StateObject state){
+	public int updateState(StateModel state){
 		System.out.println(state);
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -165,7 +165,7 @@ public class DAO {
 
 
 			// DEBUG: show number of entries
-			List<StateObject> DeviceList = mongoOperation.findAll(StateObject.class);
+			List<StateModel> DeviceList = mongoOperation.findAll(StateModel.class);
 			System.out.println("Number of entries"+ DeviceList.size());
 
 		} catch (BeansException e) {
@@ -184,8 +184,8 @@ public class DAO {
 	 * @param deviceID
 	 * @return
 	 */
-	public List<StateObject> getStateInfo(String deviceID){
-		List<StateObject> stateList = null;
+	public List<StateModel> getStateInfo(String deviceID){
+		List<StateModel> stateList = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -196,7 +196,7 @@ public class DAO {
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
 			// find the device
-			stateList = mongoOperation.find(searchState, StateObject.class);
+			stateList = mongoOperation.find(searchState, StateModel.class);
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -213,8 +213,8 @@ public class DAO {
 	/**
 	 * @return
 	 */
-	public List<StateObject> getAllStateInfo(){
-		List<StateObject> stateList = null;
+	public List<StateModel> getAllStateInfo(){
+		List<StateModel> stateList = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -225,7 +225,7 @@ public class DAO {
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
 			// find the device
-			stateList = mongoOperation.find(searchState, StateObject.class);
+			stateList = mongoOperation.find(searchState, StateModel.class);
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -243,9 +243,9 @@ public class DAO {
 	 * @param deviceID
 	 * @return
 	 */
-	public StateObject getLastStateInfo(String deviceID){
+	public StateModel getLastStateInfo(String deviceID){
 
-		StateObject state = null;
+		StateModel state = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -256,7 +256,7 @@ public class DAO {
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
 			// find the device
-			state = mongoOperation.findOne(searchState, StateObject.class);
+			state = mongoOperation.findOne(searchState, StateModel.class);
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -274,9 +274,9 @@ public class DAO {
 	 * @param deviceID
 	 * @return
 	 */
-	public List<StateObject> getAllLastStateInfo(){
+	public List<StateModel> getAllLastStateInfo(){
 		// FIXME: need to find a way to use "distinct" 
-		List<StateObject> stateList = null;
+		List<StateModel> stateList = null;
 
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -316,7 +316,7 @@ public class DAO {
 			//System.out.println("\n\nHERE:\n"+groupResults.getMappedResults());
 
 			// find the device
-			stateList = mongoOperation.find(searchState, StateObject.class);
+			stateList = mongoOperation.find(searchState, StateModel.class);
 
 		} catch (BeansException e) {
 			e.printStackTrace();

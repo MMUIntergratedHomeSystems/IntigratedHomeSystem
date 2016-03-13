@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import iot.models.ResponseModel;
 import iot.mqtt.MqttServer;
-import iot.mqtt.ResponseModel;
 
 @WebServlet("/testHive")
 public class TestHive extends HttpServlet {

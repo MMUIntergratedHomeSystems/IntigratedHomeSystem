@@ -14,12 +14,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import iot.dao.DAO;
-import iot.mvc.DeviceObject;
+import iot.models.DeviceModel;
 
 @WebServlet("/getDevice")
 public class GetDevice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	HttpUtils utils = new HttpUtils();
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -38,19 +38,15 @@ public class GetDevice extends HttpServlet {
 		String output = null;
 		
 		if (deviceID != null){
-			DeviceObject device = DAO.getDeviceInfo(deviceID);
+			DeviceModel device = DAO.getDeviceInfo(deviceID);
 			output = gson.toJson(device);
 		} else {
-			List<DeviceObject> device = DAO.getAllDeviceInfo();
+			List<DeviceModel> device = DAO.getAllDeviceInfo();
 			output = gson.toJson(device);
 		}
 		
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		out.print(output);
-		out.close();
-		
+		// Print output
+		utils.printJson(response, output);
 		
 	}
 	/**
