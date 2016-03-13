@@ -19,6 +19,7 @@ import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
 import iot.models.DeviceModel;
+import iot.models.ResponseModel;
 import iot.models.StateModel;
 
 public class DAO {
@@ -88,12 +89,14 @@ public class DAO {
 	 * @param device
 	 * @return
 	 */
-	public int registerDevice(DeviceModel device){
+	@SuppressWarnings("finally")
+	public ResponseModel registerDevice(DeviceModel device){
 		// Save registered device could do with better error 
 		// checking need to look into how to get more info back from mongo
 		System.out.println(device);
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
 			mongoOperation.setWriteConcern(WriteConcern.ACKNOWLEDGED);
@@ -106,6 +109,9 @@ public class DAO {
 			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
 			System.out.println("Number of entries: "+ DeviceList.size());
 			
+			// No errors thrown so write was a success 
+			responce.setSucsess(true);
+			responce.setMessage("Device successfully registered");
 
 
 		} catch (BeansException e) {
@@ -115,18 +121,19 @@ public class DAO {
 		} finally {
 			// Close mongo operation
 			((ConfigurableApplicationContext)ctx).close();
+			return responce;
 		}
-		// TODO: Need to re-think what to return and if we can get a status from mongo
-		return 0;
 	}
 	
 	/**
 	 * @param device
 	 * @return
 	 */
-	public int removeDevice(String deviceID){
+	@SuppressWarnings("finally")
+	public ResponseModel removeDevice(String deviceID){
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -137,6 +144,10 @@ public class DAO {
 			
 			// Remove from db
 			mongoOperation.remove(deviceToRemove);
+			
+			// No errors thrown so write was a success 
+			responce.setSucsess(true);
+			responce.setMessage("Device successfully removed");
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -145,19 +156,20 @@ public class DAO {
 		} finally {
 			// Close mongo operation
 			((ConfigurableApplicationContext)ctx).close();
+			return responce;
 		}
-		// TODO: Need to re-think what to return and if we can get a status from mongo
-		return 0;
 	}
 
 	/**
 	 * @param state
 	 * @return
 	 */
-	public int updateState(StateModel state){
+	@SuppressWarnings("finally")
+	public ResponseModel updateState(StateModel state){
 		System.out.println(state);
 		ApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			// save
@@ -167,6 +179,10 @@ public class DAO {
 			// DEBUG: show number of entries
 			List<StateModel> DeviceList = mongoOperation.findAll(StateModel.class);
 			System.out.println("Number of entries"+ DeviceList.size());
+			
+			// No errors thrown so write was a success 
+			responce.setSucsess(true);
+			responce.setMessage("State successfully updated");
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -175,9 +191,8 @@ public class DAO {
 		} finally {
 			// Close mongo operation
 			((ConfigurableApplicationContext)ctx).close();
-		}
-		// TODO: Need to re-think what to return and if we can get a status from mongo
-		return 0;		
+			return responce;
+		}	
 	}
 
 	/**

@@ -13,10 +13,14 @@ import com.google.gson.Gson;
 
 import iot.dao.DAO;
 import iot.models.DeviceModel;
+import iot.models.ResponseModel;
 
 @WebServlet(urlPatterns = {"/setDevice", "/registerDevice"})
 public class SetDevice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	HttpUtils utils = new HttpUtils();
+	Gson gson = new Gson();
+	ResponseModel responceObj = new ResponseModel(false, "Unknown Error");
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -44,10 +48,13 @@ public class SetDevice extends HttpServlet {
 		if (deviceID != null){
 			// Create staff objects with parameters to send to the DAO
 			DeviceModel device = new DeviceModel(deviceID, houseID, name, manufacturer, location, type, connected, currentState);
-			DAO.registerDevice(device);
+			responceObj = DAO.registerDevice(device);
 		}
 
-		
+		// Print output
+		String output = gson.toJson(responceObj);
+		utils.printJson(response, output);
+
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -57,14 +64,18 @@ public class SetDevice extends HttpServlet {
 		Gson gson = new Gson();
 		DeviceModel device;
 		DAO DAO = new DAO();
-		
-		 Map<String, String[]> allMap=request.getParameterMap();
-		    for(String key:allMap.keySet()){
-		        String[] strArr=(String[])allMap.get(key);
-		        for(String val:strArr){
-		            device = gson.fromJson(val, DeviceModel.class);
-		            DAO.registerDevice(device);
-		        }   
-		    }		
+
+		Map<String, String[]> allMap=request.getParameterMap();
+		for(String key:allMap.keySet()){
+			String[] strArr=(String[])allMap.get(key);
+			for(String val:strArr){
+				device = gson.fromJson(val, DeviceModel.class);
+				responceObj = DAO.registerDevice(device);
+			}
+
+			// Print output
+			String output = gson.toJson(responceObj);
+			utils.printJson(response, output);
+		}
 	}	
 }
