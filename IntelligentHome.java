@@ -1,4 +1,4 @@
-package historybuff;
+package intelligentHome;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,9 +48,9 @@ import com.amazonaws.util.json.JSONException;
 import com.amazonaws.util.json.JSONObject;
 
 @SuppressWarnings({ "unused", "deprecation", "resource" })
-public class HistoryBuffSpeechlet implements Speechlet {
+public class IntelligentHome implements Speechlet {
 	private static final Logger log = LoggerFactory
-			.getLogger(HistoryBuffSpeechlet.class);
+			.getLogger(IntelligentHome.class);
 
 	/**
 	 * URL prefix to download history content from Eds Server.
@@ -88,7 +89,7 @@ public class HistoryBuffSpeechlet implements Speechlet {
 			String speechoutput = speechOutput.toString();
 			String repromptText = "Do you want more";
 
-			return newAskResponse(speechoutput, false, repromptText, false);	
+			return newAskResponse(speechOutput, false, repromptText, false);	
 		}
 		if ("GetHistory".equals(intentName)) {
 			String speechOutput = GetHistory();
@@ -181,7 +182,7 @@ public class HistoryBuffSpeechlet implements Speechlet {
 				e.printStackTrace();
 			}
 		}
-		String name = null,type = null, result = "";
+		String name = null,type = null, state = null, result = ""; 
 		for(int i = 0; i < jsonArray.length(); i++){
 		try {
 			name = jsonArray.getJSONObject(i).getString("name");
@@ -195,8 +196,14 @@ public class HistoryBuffSpeechlet implements Speechlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			state = jsonArray.getJSONObject(i).getString("currentState");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try{
-			result =result+(name +", is of type "+ type+". ");
+			result =result+(name +", is a "+ type+" and it is currently "+state+". ");
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

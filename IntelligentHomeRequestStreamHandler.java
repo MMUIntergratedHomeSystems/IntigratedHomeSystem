@@ -7,7 +7,7 @@
 
     or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
-package historybuff;
+package intelligentHome;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,7 @@ import com.amazon.speech.speechlet.lambda.SpeechletRequestStreamHandler;
  * build this project using the {@code lambda-compile} Ant task and upload the resulting zip file to
  * power your function.
  */
-public class HistoryBuffSpeechletRequestStreamHandler extends SpeechletRequestStreamHandler {
+public class IntelligentHomeRequestStreamHandler extends SpeechletRequestStreamHandler {
 
     private static final Set<String> supportedApplicationIds;
 
@@ -35,11 +35,11 @@ public class HistoryBuffSpeechletRequestStreamHandler extends SpeechletRequestSt
         supportedApplicationIds.add("amzn1.echo-sdk-ams.app.3911570e-9ddc-4e6b-84d6-0d48bd79af53");
     }
 
-    public HistoryBuffSpeechletRequestStreamHandler() {
-        super(new HistoryBuffSpeechlet(), supportedApplicationIds);
+    public IntelligentHomeRequestStreamHandler() {
+        super(new IntelligentHome(), supportedApplicationIds);
     }
 
-    public HistoryBuffSpeechletRequestStreamHandler(Speechlet speechlet,
+    public IntelligentHomeRequestStreamHandler(Speechlet speechlet,
             Set<String> supportedApplicationIds) {
         super(speechlet, supportedApplicationIds);
     }
