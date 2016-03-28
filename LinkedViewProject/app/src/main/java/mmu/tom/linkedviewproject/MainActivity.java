@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 
@@ -39,7 +41,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);
 
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                    // The toggle is enabled
+
+                } else {
+                    // The toggle is disabled
+
+                }
+            }
+        });
 
         this.GetAllDevicesListView = (ListView) this.findViewById(R.id.GetAllDevicesListView);
 
@@ -74,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
 
 
     }

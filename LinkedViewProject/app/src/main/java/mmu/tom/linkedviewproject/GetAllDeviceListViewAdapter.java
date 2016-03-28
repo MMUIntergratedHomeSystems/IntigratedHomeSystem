@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +64,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             cell.deviceId = (TextView) convertView.findViewById(R.id.device_id);
             cell.type = (TextView) convertView.findViewById(R.id.type);
 
-            cell.aSwitch = (Switch) convertView.findViewById(R.id.switch1);
+            cell.toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton);
 
             cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
 
@@ -85,6 +85,13 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
              cell.type.setText(" " + jsonObject.getString("type"));
 
 
+            String toggle = jsonObject.getString("currentState");
+            if(toggle.equals("on")){
+                cell.toggleButton.setChecked(true);
+            }
+            else{
+                cell.toggleButton.setChecked(false);
+            }
 
             String device = jsonObject.getString("type");
             if(device.equals("Light")){
@@ -102,6 +109,8 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+
     private class ListCell{
 
         private TextView deviceName;
@@ -110,8 +119,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
         private ImageView typeImg;
 
-        private Switch aSwitch;
-        // remember to set the image to type in future
+        private ToggleButton toggleButton;
 
     }
 }

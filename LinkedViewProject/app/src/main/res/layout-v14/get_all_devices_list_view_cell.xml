@@ -40,10 +40,12 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <Switch
+    <ToggleButton
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text=""
-        android:id="@+id/switch1"
-        android:layout_gravity="center_vertical" />
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/toggleButton"
+        android:layout_gravity="center_vertical"
+        android:checked="false" />
+
 </LinearLayout>
