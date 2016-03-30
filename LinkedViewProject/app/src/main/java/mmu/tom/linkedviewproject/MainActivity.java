@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        this.GetAllDevicesListView = (ListView) this.findViewById(R.id.GetAllDevicesListView);
+
+        new GetAllDevicesTask().execute(new ApiConnector());
     }
 
 
@@ -59,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
             // it is executed on Background thread
 
-             return params[0].GetAllDevicesState();
+            return params[0].GetAllDevicesState();
         }
 
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
 
-         setListAdapter(jsonArray);
+            setListAdapter(jsonArray);
 
 
 

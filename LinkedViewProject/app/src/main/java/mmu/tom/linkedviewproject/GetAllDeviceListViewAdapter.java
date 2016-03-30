@@ -2,6 +2,7 @@ package mmu.tom.linkedviewproject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
     private String state;
 
     private static LayoutInflater inflater = null;
+    private static final String TAG = "FormatDevice";
 
 
     public GetAllDeviceListViewAdapter(JSONArray jsonArray, Activity a){
@@ -55,9 +57,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-          // set up the convert view if it's null
-
-
+        // set up the convert view if it's null
         ListCell cell;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.get_all_devices_list_view_cell,null);
@@ -69,13 +69,12 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
             cell.toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton);
 
-
             cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
 
 
             convertView.setTag(cell);
 
-            }
+        }
         else{
             cell=(ListCell) convertView.getTag();
         }
@@ -84,10 +83,9 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
         try{
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-             cell.deviceName.setText(jsonObject.getString("name"));
-             cell.deviceId.setText(" " + jsonObject.getString("deviceID"));
-             cell.type.setText(" " + jsonObject.getString("type"));
-
+            cell.deviceName.setText(jsonObject.getString("name"));
+            cell.deviceId.setText(" " + jsonObject.getString("deviceID"));
+            cell.type.setText(" " + jsonObject.getString("type"));
 
 
             String toggle = jsonObject.getString("currentState");
@@ -98,6 +96,26 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
                 cell.toggleButton.setChecked(false);
             }
 
+            cell.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if(isChecked)
+                    {
+                        //your action
+
+
+
+
+                        Log.i(TAG, "  Toggle on");
+                    }
+                    else
+                    {
+                        //your action
+                        Log.i(TAG, "  Toggle off");
+                    }
+                }
+            });
 
             String device = jsonObject.getString("type");
             if(device.equals("Light")){
@@ -106,14 +124,13 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             else if(device.equals("Lock")){
                 cell.typeImg.setImageResource(R.mipmap.ic_lock_open_black_24dp);
             }
-
-
             // remember to set the image to type in future
+
+
         }
         catch(JSONException e){
             e.printStackTrace();
         }
-
 
 
 
@@ -133,6 +150,4 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
         private ToggleButton toggleButton;
 
     }
-
-
 }

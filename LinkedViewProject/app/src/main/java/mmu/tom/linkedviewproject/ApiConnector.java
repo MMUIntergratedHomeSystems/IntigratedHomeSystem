@@ -22,7 +22,7 @@ public class ApiConnector {
     public JSONArray GetAllDevicesState() {
         // URL for getting all customers
 
-
+        System.out.println("IS THIS EVEN WROKING");
         String url = "http://52.88.194.67:8080/IOTProjectServer/getDevice";
 
         // Get HttpResponse Object from url.
