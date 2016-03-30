@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -55,6 +56,8 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
           // set up the convert view if it's null
+
+
         ListCell cell;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.get_all_devices_list_view_cell,null);
@@ -65,6 +68,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             cell.type = (TextView) convertView.findViewById(R.id.type);
 
             cell.toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton);
+
 
             cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
 
@@ -85,6 +89,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
              cell.type.setText(" " + jsonObject.getString("type"));
 
 
+
             String toggle = jsonObject.getString("currentState");
             if(toggle.equals("on")){
                 cell.toggleButton.setChecked(true);
@@ -93,6 +98,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
                 cell.toggleButton.setChecked(false);
             }
 
+
             String device = jsonObject.getString("type");
             if(device.equals("Light")){
                 cell.typeImg.setImageResource(R.mipmap.ic_lights_on);
@@ -100,11 +106,16 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             else if(device.equals("Lock")){
                 cell.typeImg.setImageResource(R.mipmap.ic_lock_open_black_24dp);
             }
+
+
             // remember to set the image to type in future
         }
         catch(JSONException e){
             e.printStackTrace();
         }
+
+
+
 
         return convertView;
     }
@@ -122,4 +133,6 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
         private ToggleButton toggleButton;
 
     }
+
+
 }
