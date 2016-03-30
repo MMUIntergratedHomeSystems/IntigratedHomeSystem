@@ -58,7 +58,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // set up the convert view if it's null
-        ListCell cell;
+        final ListCell cell;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.get_all_devices_list_view_cell,null);
             cell = new ListCell();
@@ -88,7 +88,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             cell.type.setText(" " + jsonObject.getString("type"));
 
 
-            String toggle = jsonObject.getString("currentState");
+            final  String toggle = jsonObject.getString("currentState");
             if(toggle.equals("on")){
                 cell.toggleButton.setChecked(true);
             }
@@ -103,7 +103,14 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
                     if(isChecked)
                     {
                         //your action
-
+                        if(toggle.equals("on")){
+                            cell.toggleButton.setChecked(true);
+                            Log.i(TAG, "  Toggle SHOULD BE ONon");
+                        }
+                        else{
+                            cell.toggleButton.setChecked(false);
+                            Log.i(TAG, "  Toggle SHOULD BE OFF");
+                        }
 
 
 
