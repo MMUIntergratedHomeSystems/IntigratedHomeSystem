@@ -38,7 +38,7 @@ public class ApiConnector {
             HttpResponse httpResponse = httpClient.execute(httpGet);
 
             httpEntity = httpResponse.getEntity();
-
+            System.out.println("IS THIS EVEN WROKING");
 
         } catch (ClientProtocolException e) {
 
@@ -46,7 +46,7 @@ public class ApiConnector {
             e.printStackTrace();
 
             //Log Errors Here
-
+            System.out.println("IS THIS EVEN GETTING AN ERROR");
 
         } catch (IOException e) {
             e.printStackTrace();
