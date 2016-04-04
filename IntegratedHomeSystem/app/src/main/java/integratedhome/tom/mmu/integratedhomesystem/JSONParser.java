@@ -16,6 +16,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
+
+/**
+ * Created by Tom on 04/04/2016.
+ */
+
 public class JSONParser {
 
     private String charset = "UTF-8";
