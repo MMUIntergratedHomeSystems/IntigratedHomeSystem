@@ -14,7 +14,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 /**
- * Created by tahseen0amin on 16/02/2014.
+ * Created by Tom on 08/02/2016.
  */
 public class ApiConnector {
 
