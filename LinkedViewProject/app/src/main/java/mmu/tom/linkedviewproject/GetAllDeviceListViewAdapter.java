@@ -93,23 +93,28 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             if(toggle.equals("on")){
                 cell.toggleButton.setChecked(true);
 
+                Log.i(TAG, "  TEST on");
 
             }
-            else{
+            else if (toggle.equals("off")){
                 cell.toggleButton.setChecked(false);
-
+                Log.i(TAG, "  TEST off");
             }
+
+
             cell.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if (isChecked) {
+                    if(isChecked)
+                    {
 
-                        Log.i(TAG, "  TEST on");
-
-                    } else {
+                        Log.i(TAG, "  THIS HAS NOT BEEN TOGGLE ON");
+                    }
+                    else
+                    {
                         //your action
-                        Log.i(TAG, "  Toggle off");
+                        Log.i(TAG, "   THIS HAS NOT BEEN TOGGLE OFF");
                     }
                 }
             });
