@@ -56,7 +56,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // set up the convert view if it's null
         ListCell cell;
         if(convertView == null){
@@ -70,6 +70,7 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             cell.toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton);
 
             cell.typeImg = (ImageView) convertView.findViewById(R.id.device_type);
+
 
 
             convertView.setTag(cell);
@@ -91,27 +92,28 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
             String toggle = jsonObject.getString("currentState");
             if(toggle.equals("on")){
                 cell.toggleButton.setChecked(true);
+
+
             }
             else{
                 cell.toggleButton.setChecked(false);
-            }
 
+            }
             cell.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if(isChecked)
-                    {
+                    if (isChecked) {
 
-                        Log.i(TAG, "  Toggle on");
-                    }
-                    else
-                    {
+                        Log.i(TAG, "  TEST on");
+
+                    } else {
                         //your action
                         Log.i(TAG, "  Toggle off");
                     }
                 }
             });
+
 
             String device = jsonObject.getString("type");
             if(device.equals("Light")){

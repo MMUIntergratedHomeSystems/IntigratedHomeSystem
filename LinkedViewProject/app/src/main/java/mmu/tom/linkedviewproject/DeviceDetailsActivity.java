@@ -1,5 +1,6 @@
 package mmu.tom.linkedviewproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,10 @@ public class DeviceDetailsActivity extends AppCompatActivity  {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Intent i;
+                i = new Intent(DeviceDetailsActivity.this, MainActivity.class);
+                startActivity(i);
             }
         });
 

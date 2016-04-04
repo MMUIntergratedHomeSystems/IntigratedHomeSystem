@@ -1,12 +1,9 @@
 package mmu.tom.linkedviewproject;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -24,19 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "  OPened this");
 
-
-        ImageButton button1 = (ImageButton) findViewById(R.id.image_button_new);
-
-        button1.setOnClickListener(new View.OnClickListener() {
-            Class ourClass;
-
-            public void onClick(View v) {
-
-                Intent i;
-                i = new Intent(MainActivity.this, DeviceDetailsActivity.class);
-                startActivity(i);
-            }
-        });
 
 
 
