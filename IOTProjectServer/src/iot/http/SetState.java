@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import iot.models.ResponseModel;
 import iot.models.StateModel;
@@ -19,7 +20,7 @@ import iot.mqtt.MqttServer;
 public class SetState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	HttpUtils utils = new HttpUtils();
-	Gson gson = new Gson();
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	ResponseModel responceObj = new ResponseModel(false, "Unknown Error");
 
 	/**

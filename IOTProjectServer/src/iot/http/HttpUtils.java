@@ -10,6 +10,13 @@ public class HttpUtils {
 		super();
 	}
 
+	/**
+	 * Takes HTTP response and a JSON String that will be printed out for clients interfacing with the system.
+	 *  
+	 * @param response
+	 * @param output
+	 * @throws IOException
+	 */
 	public void printJson(HttpServletResponse response, String output) throws IOException{
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("application/json");

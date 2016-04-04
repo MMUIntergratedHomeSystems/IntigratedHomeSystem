@@ -30,6 +30,12 @@ public class MqttServer implements MqttCallback {
 		super();
 	}
 
+	/**
+	 * Takes a deviceID and a state to send to a device connected to the MQTT server, returns a ResponceModel with success and message.
+	 * @param deviceID
+	 * @param state
+	 * @return response
+	 */
 	public ResponseModel send(String deviceID, String state){
 		responce = new ResponseModel(false, deviceID+": Unknown Error");
 		DAO dao = new DAO();
@@ -61,6 +67,8 @@ public class MqttServer implements MqttCallback {
 						// Publish the message
 						MqttMessage message = new MqttMessage(state.getBytes());
 						message.setQos(qos);
+						// Retain the message
+						message.setRetained(true);
 						IMqttDeliveryToken token = null;
 						token = mqttAddress.publish(message);
 						// Wait for message to arrive - this will call delivery complete
@@ -108,6 +116,9 @@ public class MqttServer implements MqttCallback {
 		return responce;
 	}	
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.paho.client.mqttv3.MqttCallback#deliveryComplete(org.eclipse.paho.client.mqttv3.IMqttDeliveryToken)
+	 */
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
 		try {
@@ -117,10 +128,16 @@ public class MqttServer implements MqttCallback {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.paho.client.mqttv3.MqttCallback#messageArrived(java.lang.String, org.eclipse.paho.client.mqttv3.MqttMessage)
+	 */
 	@Override
 	public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.paho.client.mqttv3.MqttCallback#connectionLost(java.lang.Throwable)
+	 */
 	@Override
 	public void connectionLost(Throwable arg0) {
 	}
