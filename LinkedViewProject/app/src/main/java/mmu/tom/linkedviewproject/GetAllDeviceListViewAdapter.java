@@ -90,13 +90,13 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
 
             String toggle = jsonObject.getString("currentState");
-            if(toggle.equals("on")){
+            if(toggle.equalsIgnoreCase("on")){
                 cell.toggleButton.setChecked(true);
 
                 Log.i(TAG, "  TEST on");
 
             }
-            else if (toggle.equals("off")){
+            else if (toggle.equalsIgnoreCase("off")){
                 cell.toggleButton.setChecked(false);
                 Log.i(TAG, "  TEST off");
             }
@@ -121,10 +121,10 @@ public class GetAllDeviceListViewAdapter extends BaseAdapter {
 
 
             String device = jsonObject.getString("type");
-            if(device.equals("Light")){
+            if(device.equalsIgnoreCase("Light")){
                 cell.typeImg.setImageResource(R.mipmap.ic_lights_on);
             }
-            else if(device.equals("Lock")){
+            else if(device.equalsIgnoreCase("Lock")){
                 cell.typeImg.setImageResource(R.mipmap.ic_lock_open_black_24dp);
             }
             // remember to set the image to type in future
