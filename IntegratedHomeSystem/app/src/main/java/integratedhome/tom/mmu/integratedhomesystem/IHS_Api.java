@@ -5,33 +5,28 @@ import android.util.Log;
 import org.json.JSONArray;
 import java.util.HashMap;
 
-/**
- * Created by Tom on 04/04/2016.
- */
 public class IHS_Api {
 
     private static String URL_BASE = "http://52.88.194.67:8080/IOTProjectServer/";
     private JSONParser jp;
+    private UIController uiController;
 
-    public IHS_Api() {
-        //creates new JSON parser
+    public IHS_Api(UIController uic) {
         jp = new JSONParser();
+        this.uiController = uic;
     }
 
 
     //Callable methods
     public void getDevicesList() {
-        //gets all devices currently located on te server.
         new GetDevicesRequest().execute();
     }
 
     public void setState(String deviceID, boolean newState) {
-        //sets the state of a selected device and sends the deviceID and it's new state.
         new SetDeviceRequest().execute(deviceID, newState ? "1" : "0");
     }
 
     public void removeDevice(String deviceID) {
-        //deletes a selected device.
         new RemoveDeviceRequest().execute(deviceID);
     }
 
@@ -47,7 +42,8 @@ public class IHS_Api {
 
         @Override
         protected void onPostExecute(JSONArray json) {
-            Log.v("IHS", json.toString());
+            uiController.updateDevicesList(json);
+
         }
     }
 
@@ -63,7 +59,7 @@ public class IHS_Api {
 
         @Override
         protected void onPostExecute(JSONArray json) {
-            Log.v("IHS", json.toString());
+            getDevicesList();
         }
     }
 
@@ -78,7 +74,7 @@ public class IHS_Api {
 
         @Override
         protected void onPostExecute(JSONArray json) {
-            Log.v("IHS", json.toString());
+            getDevicesList();
         }
     }
 }

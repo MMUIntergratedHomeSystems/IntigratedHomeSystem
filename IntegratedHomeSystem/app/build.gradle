@@ -10,9 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-         // Enabling multidex support.
-         multiDexEnabled true
-
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -28,4 +26,3 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
 }
-
