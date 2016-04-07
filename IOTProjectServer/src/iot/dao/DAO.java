@@ -1,5 +1,6 @@
 package iot.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeansException;
@@ -24,14 +25,48 @@ import iot.models.StateModel;
 
 public class DAO {
 	// TODO: Connection pooling
-	// TODO: Look at how to return info from DB transactions
+
+	// Array of device types that publish information to the server, 
+	// used in MqttServerReceive to record the data sent. 
+	public String pubDevices[] = {"Thermostat", "test6"};
+
+	/**
+	 * @return - Returns a List of connected publishing DeviceObject's info stored in the database
+	 */
+	public List<DeviceModel> getPubDeviceInfo(){
+		List<DeviceModel> DeviceList = null;
+		List<Criteria> orCriteriaList = new ArrayList<Criteria>();
+		for (String pubs: pubDevices) {
+			Criteria c1 = Criteria.where("type").is(pubs).and("connected").is(true);
+			orCriteriaList.add(c1);
+		}	
+		ApplicationContext ctx = 
+				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		try {
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+			Query findPubDevice;
+
+			findPubDevice = new Query(new Criteria().orOperator(orCriteriaList.toArray(new Criteria[orCriteriaList.size()])));
+			System.out.println(findPubDevice.toString());
+
+			DeviceList = mongoOperation.find(findPubDevice, DeviceModel.class);
+
+		} catch (BeansException e) {
+			e.printStackTrace();
+		} catch (MongoException e){
+			e.printStackTrace();
+		} finally {
+			// Close mongo operation
+			((ConfigurableApplicationContext)ctx).close();
+		}
+
+		return DeviceList;
+	}
 
 	/**
 	 * @return - Returns a List of all DeviceObject info stored in the database
 	 */
 	public List<DeviceModel> getAllDeviceInfo(){
-		// TODO: Need to think what to return; all of the information, 
-		// or combine with last known status
 		List<DeviceModel> DeviceList = null;
 
 		ApplicationContext ctx = 
@@ -108,7 +143,7 @@ public class DAO {
 			// DEBUG: show number of entries
 			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
 			System.out.println("Number of entries: "+ DeviceList.size());
-			
+
 			// No errors thrown so write was a success 
 			responce.setSucsess(true);
 			responce.setMessage("Device successfully registered");
@@ -124,7 +159,7 @@ public class DAO {
 			return responce;
 		}
 	}
-	
+
 	/**
 	 * @param device
 	 * @return
@@ -139,12 +174,12 @@ public class DAO {
 
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
 			DeviceModel deviceToRemove = mongoOperation.findOne(findDevice, DeviceModel.class);
-			
+
 			System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
-			
+
 			// Remove from db
 			mongoOperation.remove(deviceToRemove);
-			
+
 			// No errors thrown so write was a success 
 			responce.setSucsess(true);
 			responce.setMessage("Device successfully removed");
@@ -179,7 +214,7 @@ public class DAO {
 			// DEBUG: show number of entries
 			List<StateModel> DeviceList = mongoOperation.findAll(StateModel.class);
 			System.out.println("Number of entries"+ DeviceList.size());
-			
+
 			// No errors thrown so write was a success 
 			responce.setSucsess(true);
 			responce.setMessage("State successfully updated");
@@ -298,34 +333,34 @@ public class DAO {
 		try {
 			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
 
-			
+
 			//BasicDBObject dbObj = new BasicDBObject();
-			
-			
+
+
 			Query searchState = new Query();
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 			//DBCollection bdCol = mongoOperation.createCollection(StateObject.class);
 			//System.out.println("\n\nHERE:\n"+mongoOperation.getCollection("Device").distinct("deviceID")+"\n\n");
 			//stateList =  mongoOperation.createCollection(StateObject.class).distinct("deviceID");
 
-			
-//			String json = "[{ \"$sort\": { \"deviceID\": 1, \"dateStored\": 1 } }, { \"$group\": { \"_id\": \"$deviceID\", \"lastSalesDate\": { \"$last\": \"$dateStored\" } } } ]";
-//			BasicDBList pipeline = (BasicDBList)com.mongodb.util.JSON.parse(json);
-//		    BasicDBObject aggregation = new BasicDBObject("aggregate",StateObject.class)
-//		            .append("pipeline",pipeline);
-//		    System.out.println(aggregation);
-//
-//		    CommandResult commandResult = mongoOperation.executeCommand(aggregation);
-//			System.out.println("\n\nHERE:\n"+commandResult);
+
+			//			String json = "[{ \"$sort\": { \"deviceID\": 1, \"dateStored\": 1 } }, { \"$group\": { \"_id\": \"$deviceID\", \"lastSalesDate\": { \"$last\": \"$dateStored\" } } } ]";
+			//			BasicDBList pipeline = (BasicDBList)com.mongodb.util.JSON.parse(json);
+			//		    BasicDBObject aggregation = new BasicDBObject("aggregate",StateObject.class)
+			//		            .append("pipeline",pipeline);
+			//		    System.out.println(aggregation);
+			//
+			//		    CommandResult commandResult = mongoOperation.executeCommand(aggregation);
+			//			System.out.println("\n\nHERE:\n"+commandResult);
 			//AggregationOperation match = Aggregation.match(searchState);
-//			AggregationOperation group = Aggregation.group("deviceID");
-//			AggregationOperation sort = Aggregation.sort(Direction.DESC, "dateStored");
-//			AggregationOperation project = Aggregation.project("dateStored");
-//			AggregationOperation project2 = Aggregation.project("deviceID");
+			//			AggregationOperation group = Aggregation.group("deviceID");
+			//			AggregationOperation sort = Aggregation.sort(Direction.DESC, "dateStored");
+			//			AggregationOperation project = Aggregation.project("dateStored");
+			//			AggregationOperation project2 = Aggregation.project("deviceID");
 			//Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("deviceID"),group,sort);
-//			Aggregation aggregation = Aggregation.newAggregation(StateObject.class, project, project2, group, sort);
-//			AggregationResults<StateObject> result = mongoOperation.aggregate(aggregation, "eft_transactions", StateObject.class);
-//			System.out.println("\n\nHERE:\n"+result);
+			//			Aggregation aggregation = Aggregation.newAggregation(StateObject.class, project, project2, group, sort);
+			//			AggregationResults<StateObject> result = mongoOperation.aggregate(aggregation, "eft_transactions", StateObject.class);
+			//			System.out.println("\n\nHERE:\n"+result);
 			//mongoOperation.getCollection("Device").aggregate((List<DBObject>) aggregation);
 			//AggregationResults<StateObject> groupResults = mongoOperation.aggregate(aggregation, StateObject.class, StateObject.class);
 			//System.out.println("\n\nHERE:\n"+groupResults.getMappedResults());

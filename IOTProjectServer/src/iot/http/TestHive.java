@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import iot.models.ResponseModel;
-import iot.mqtt.MqttServer;
+import iot.mqtt.MqttServerSend;
 
 @WebServlet("/testHive")
 public class TestHive extends HttpServlet {
@@ -37,7 +37,7 @@ public class TestHive extends HttpServlet {
 		
 		ResponseModel resp;
 		String output = null;
-		MqttServer server = new MqttServer();
+		MqttServerSend server = new MqttServerSend();
 		
 		resp = server.send("light123","on");
 		output += resp.toString();

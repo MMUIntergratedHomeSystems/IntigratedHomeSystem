@@ -14,7 +14,7 @@ import com.google.gson.GsonBuilder;
 
 import iot.models.ResponseModel;
 import iot.models.StateModel;
-import iot.mqtt.MqttServer;
+import iot.mqtt.MqttServerSend;
 
 @WebServlet("/setState")
 public class SetState extends HttpServlet {
@@ -67,7 +67,7 @@ public class SetState extends HttpServlet {
 	}
 
 	public void sendToMqtt(StateModel state){
-		MqttServer mqttServer = new MqttServer();
+		MqttServerSend mqttServer = new MqttServerSend();
 		
 		if (state.getDeviceID() != null){
 			responceObj = mqttServer.send(state.getDeviceID(), state.getState());

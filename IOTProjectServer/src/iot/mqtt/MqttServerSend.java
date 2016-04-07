@@ -18,15 +18,15 @@ import iot.models.ResponseModel;
 import iot.models.StateModel;
 import iot.rmi.RMIClient;
 
-public class MqttServer implements MqttCallback {
+public class MqttServerSend implements MqttCallback {
 	final String mqttServer = "tcp://localhost:1883";
 	//final String mqttServer = "tcp://52.88.194.67:1883";
-	final String clientId = "server";
+	final String clientId = "serverSend";
 	final int qos = 0;
 	public ResponseModel responce;
 	public DeviceModel device;
 
-	public MqttServer(){
+	public MqttServerSend(){
 		super();
 	}
 
@@ -76,7 +76,6 @@ public class MqttServer implements MqttCallback {
 						
 						if (token.isComplete() == true){
 							// Update the device object and state
-							// TODO: Should this be here or with the device
 							StateModel stateObj = new StateModel(device.getDeviceID(), state, new Date());
 							device.setCurrentState(state);
 							dao.updateState(stateObj);
