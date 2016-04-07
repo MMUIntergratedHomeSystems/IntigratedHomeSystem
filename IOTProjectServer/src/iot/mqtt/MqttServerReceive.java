@@ -57,26 +57,20 @@ public class MqttServerReceive{
 	 * @throws MqttException 
 	 */
 	public void connect() throws MqttException {
-//			client = new MqttClient(mqttServer, clientId, new MemoryPersistence());			
-//			// Add topics to subscribe to
-//			addTopics();
-//			client.connect();
-//			client.setCallback(callback);
-			
-			
-			try {
-				client = new MqttClient(mqttServer, clientId, new MemoryPersistence());
-				client.connect();
-				// Add topics to subscribe to
-				addTopics();
-			} catch (MqttException e) {
-				e.printStackTrace();
-			}
-			client.setCallback(callback);
+		try {
+			client = new MqttClient(mqttServer, clientId, new MemoryPersistence());
+			client.connect();
+			// Add topics to subscribe to
+			addTopics();
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
+		client.setCallback(callback);
 	}
 
-
 	/**
+	 * Adds and removes topics if a device connects/disconnects
+	 * 
 	 * @throws MqttException
 	 */
 	public void addTopics() throws MqttException {		
@@ -85,7 +79,8 @@ public class MqttServerReceive{
 		String currentTopic;
 		previousTopicsMap = new HashMap<String, String>(currentTopicsMap);
 		currentTopicsMap.clear();
-		
+
+		// Added to reconnect if the Mqtt server get restarted
 		if (client.isConnected()== false){
 			this.connect();
 		}
