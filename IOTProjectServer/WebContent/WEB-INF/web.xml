@@ -12,11 +12,9 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-
-	<servlet>
+		<servlet>
 		<servlet-name>Initialize</servlet-name>
-		<servlet-class>iot.http.Initialize</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<servlet-class>iot.mqtt.Initialize</servlet-class>
+		<load-on-startup>0</load-on-startup>
 	</servlet>
-
 </web-app>

@@ -14,14 +14,15 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import iot.dao.DAO;
 import iot.models.DeviceModel;
 import iot.models.StateModel;
 
 public class MqttServerReceive{
-	final String mqttServer = "tcp://localhost:1883";
-	//final String mqttServer = "tcp://52.88.194.67:1883";
+	//final String mqttServer = "tcp://localhost:1883";
+	final String mqttServer = "tcp://52.88.194.67:1883";
 	final String clientId = "serverReceive";
 	StateModel stateObj;
 	MqttClient client;
@@ -34,7 +35,7 @@ public class MqttServerReceive{
 	// Time in seconds to update subscriptions
 	int refresh = 120;
 
-	public MqttServerReceive(){
+	public MqttServerReceive() throws MqttException{
 		this.connect();
 	}
 
@@ -53,29 +54,41 @@ public class MqttServerReceive{
 
 	/**
 	 * Connect to mqtt server
+	 * @throws MqttException 
 	 */
-	public void connect() {
-		try {
-			client = new MqttClient(mqttServer, clientId);
-			client.connect();
-			// Add topics to subscribe to
-			addTopics();
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
-		client.setCallback(callback);
+	public void connect() throws MqttException {
+//			client = new MqttClient(mqttServer, clientId, new MemoryPersistence());			
+//			// Add topics to subscribe to
+//			addTopics();
+//			client.connect();
+//			client.setCallback(callback);
+			
+			
+			try {
+				client = new MqttClient(mqttServer, clientId, new MemoryPersistence());
+				client.connect();
+				// Add topics to subscribe to
+				addTopics();
+			} catch (MqttException e) {
+				e.printStackTrace();
+			}
+			client.setCallback(callback);
 	}
 
 
 	/**
 	 * @throws MqttException
 	 */
-	public void addTopics() throws MqttException {
+	public void addTopics() throws MqttException {		
 		// Get a list of currently connected publishing devices
 		pubDevices = new ArrayList<DeviceModel>(dao.getPubDeviceInfo());
 		String currentTopic;
 		previousTopicsMap = new HashMap<String, String>(currentTopicsMap);
 		currentTopicsMap.clear();
+		
+		if (client.isConnected()== false){
+			this.connect();
+		}
 
 		// If no devices online no point in running
 		if (pubDevices != null){
@@ -106,7 +119,11 @@ public class MqttServerReceive{
 		 */
 		public void connectionLost(Throwable t) {
 			// If connection is lost make sure to re-connect
-			connect();
+			try {
+				connect();
+			} catch (MqttException e) {
+				e.printStackTrace();
+			}
 		} 
 
 		/* (non-Javadoc)

@@ -28,7 +28,7 @@ public class DAO {
 
 	// Array of device types that publish information to the server, 
 	// used in MqttServerReceive to record the data sent. 
-	public String pubDevices[] = {"Thermostat", "test6"};
+	public String pubDevices[] = {"Thermostat"};
 
 	/**
 	 * @return - Returns a List of connected publishing DeviceObject's info stored in the database
