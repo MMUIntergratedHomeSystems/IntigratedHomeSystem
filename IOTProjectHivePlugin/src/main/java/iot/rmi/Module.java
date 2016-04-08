@@ -11,8 +11,6 @@ public class Module extends HiveMQPluginModule{
 
 	@Override
 	protected void configurePlugin() {
-		// dependencies here with standard Guice bindings.
-		
 	}
 
 	@Override

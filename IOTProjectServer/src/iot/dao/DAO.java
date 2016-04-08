@@ -23,15 +23,18 @@ import iot.models.DeviceModel;
 import iot.models.ResponseModel;
 import iot.models.StateModel;
 
+/**
+ * Data Access Object for the server
+ */
 public class DAO {
-	// TODO: Connection pooling
-
 	// Array of device types that publish information to the server, 
 	// used in MqttServerReceive to record the data sent. 
 	public String pubDevices[] = {"Thermostat"};
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+	
 
 	/**
-	 * @return - Returns a List of connected publishing DeviceObject's info stored in the database
+	 * @return - Returns a List of connected publishing DeviceModel's info stored in the database
 	 */
 	public List<DeviceModel> getPubDeviceInfo(){
 		List<DeviceModel> DeviceList = null;
@@ -40,8 +43,7 @@ public class DAO {
 			Criteria c1 = Criteria.where("type").is(pubs).and("connected").is(true);
 			orCriteriaList.add(c1);
 		}	
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query findPubDevice;
@@ -55,16 +57,13 @@ public class DAO {
 			e.printStackTrace();
 		} catch (MongoException e){
 			e.printStackTrace();
-		} finally {
-			// Close mongo operation
-			((ConfigurableApplicationContext)ctx).close();
 		}
 
 		return DeviceList;
 	}
 
 	/**
-	 * @return - Returns a List of all DeviceObject info stored in the database
+	 * @return - Returns a List of all DeviceModel info stored in the database
 	 */
 	public List<DeviceModel> getAllDeviceInfo(){
 		List<DeviceModel> DeviceList = null;
@@ -92,7 +91,7 @@ public class DAO {
 
 	/**
 	 * @param deviceID
-	 * @return
+	 * @return - Return a single DeviceModel info stored in the database
 	 */
 	public DeviceModel getDeviceInfo(String deviceID){
 

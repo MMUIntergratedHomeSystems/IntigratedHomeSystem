@@ -1,6 +1,9 @@
 package iot.rmi.callbacks;
 
 
+/**
+ * Model used for storing device information
+ */
 public class DeviceObject {
 	String deviceID;
 	String houseID;

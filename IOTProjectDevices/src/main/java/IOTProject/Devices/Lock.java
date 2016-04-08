@@ -17,8 +17,6 @@ import com.phidgets.event.DetachEvent;
 import com.phidgets.event.DetachListener;
 import com.phidgets.event.ErrorEvent;
 import com.phidgets.event.ErrorListener;
-import com.phidgets.event.InputChangeEvent;
-import com.phidgets.event.OutputChangeEvent;
 import com.phidgets.event.ServoPositionChangeEvent;
 import com.phidgets.event.ServoPositionChangeListener;
 
@@ -97,26 +95,6 @@ public class Lock {
 		} catch (PhidgetException pe) {
 			System.out.println("Motor error " + pe);
 		}
-	}
-	
-	public void inputChanged(InputChangeEvent arg0) {
-		System.out.println(arg0);
-	}
-
-	public void attached(AttachEvent arg0) {
-		System.out.println(arg0);
-	}
-
-	public void detached(DetachEvent arg0) {
-		System.out.println(arg0);
-	}
-
-	public void error(ErrorEvent arg0) {
-		System.out.println(arg0);
-	}
-
-	public void outputChanged(OutputChangeEvent arg0) {
-		System.out.println(arg0);
 	}
 	
 	private static void startServoListeners() {

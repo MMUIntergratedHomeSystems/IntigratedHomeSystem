@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+/**
+ * Sends information from the HiveMq to the MongoDB
+ */
 public class SendToServer {
 	String baseUrl = "http://localhost:8080/IOTProjectServer";
 	Logger log = LoggerFactory.getLogger(SendToServer.class);

@@ -7,28 +7,27 @@ import com.hivemq.spi.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// extends UnicastRemoteObject 
+/**
+ *Interface for the RMI implementation
+ */
 public class RMIImpl implements RMIInterface {
 
+	// Start logger
 	Logger log = LoggerFactory.getLogger(RMIImpl.class);
-	private String message;
 	public ClientService clientService;
 
 	public RMIImpl(String msg, ClientService clientService) throws RemoteException {
 		super();
 		this.clientService = clientService;
-		message = msg;
 		log.info("Plugin class");
 	}
 
+	/** 
+	 * Returns if a device is currently connected to the HiveMq server
+	 */
 	@Override
 	public Boolean isConnected(String deviceID) throws RemoteException {
 		log.info("Plugin class - isConnected() deviceID:"+deviceID);
 		return clientService.isClientConnectedLocal(deviceID);
-	}
-
-	@Override
-	public String say() throws RemoteException {
-		return message;
 	}
 }
