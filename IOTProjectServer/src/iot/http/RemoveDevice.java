@@ -27,11 +27,6 @@ public class RemoveDevice extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		response.setStatus(HttpServletResponse.SC_OK);
-//		response.setContentType("text/html");
-//		PrintWriter out = response.getWriter();
-//		out.print("Here is some test data");
-//		out.close();
 		DAO DAO = new DAO();
 		
 		// Get values from parameters

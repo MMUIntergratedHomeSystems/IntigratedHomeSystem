@@ -1,21 +1,21 @@
 package iot.models;
 
 public class ResponseModel {
-	Boolean sucsess;
+	Boolean success;
 	String message;
 	
-	public ResponseModel(Boolean sucsess, String message) {
+	public ResponseModel(Boolean success, String message) {
 		super();
-		this.sucsess = sucsess;
+		this.success = success;
 		this.message = message;
 	}
 
-	public Boolean getSucsess() {
-		return sucsess;
+	public Boolean getSuccess() {
+		return success;
 	}
 
-	public void setSucsess(Boolean sucsess) {
-		this.sucsess = sucsess;
+	public void setSuccess(Boolean success) {
+		this.success = success;
 	}
 
 	public String getMessage() {
@@ -28,7 +28,7 @@ public class ResponseModel {
 	
 	@Override
 	public String toString() {
-		return "ResponseModel [sucsess=" + sucsess + ", message=" + message + "]";
+		return "ResponseModel [success=" + success + ", message=" + message + "]";
 	}
 
 }

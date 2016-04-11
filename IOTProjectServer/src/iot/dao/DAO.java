@@ -57,6 +57,9 @@ public class DAO {
 			e.printStackTrace();
 		} catch (MongoException e){
 			e.printStackTrace();
+		} finally {
+			// Close mongo operation
+			((ConfigurableApplicationContext)ctx).close();
 		}
 
 		return DeviceList;
@@ -68,8 +71,6 @@ public class DAO {
 	public List<DeviceModel> getAllDeviceInfo(){
 		List<DeviceModel> DeviceList = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -97,8 +98,6 @@ public class DAO {
 
 		DeviceModel device = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -127,9 +126,7 @@ public class DAO {
 	public ResponseModel registerDevice(DeviceModel device){
 		// Save registered device could do with better error 
 		// checking need to look into how to get more info back from mongo
-		System.out.println(device);
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
@@ -139,12 +136,12 @@ public class DAO {
 			// save
 			mongoOperation.save(device);
 
-			// DEBUG: show number of entries
-			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
-			System.out.println("Number of entries: "+ DeviceList.size());
+//			// DEBUG: show number of entries
+//			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
+//			System.out.println("Number of entries: "+ DeviceList.size());
 
 			// No errors thrown so write was a success 
-			responce.setSucsess(true);
+			responce.setSuccess(true);
 			responce.setMessage("Device successfully registered");
 
 
@@ -165,8 +162,6 @@ public class DAO {
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel removeDevice(String deviceID){
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
@@ -174,13 +169,13 @@ public class DAO {
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
 			DeviceModel deviceToRemove = mongoOperation.findOne(findDevice, DeviceModel.class);
 
-			System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
+			//System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
 
 			// Remove from db
 			mongoOperation.remove(deviceToRemove);
 
 			// No errors thrown so write was a success 
-			responce.setSucsess(true);
+			responce.setSuccess(true);
 			responce.setMessage("Device successfully removed");
 
 		} catch (BeansException e) {
@@ -200,9 +195,6 @@ public class DAO {
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel updateState(StateModel state){
-		System.out.println(state);
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
@@ -215,7 +207,7 @@ public class DAO {
 			System.out.println("Number of entries"+ DeviceList.size());
 
 			// No errors thrown so write was a success 
-			responce.setSucsess(true);
+			responce.setSuccess(true);
 			responce.setMessage("State successfully updated");
 
 		} catch (BeansException e) {
@@ -236,8 +228,6 @@ public class DAO {
 	public List<StateModel> getStateInfo(String deviceID){
 		List<StateModel> stateList = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -265,8 +255,6 @@ public class DAO {
 	public List<StateModel> getAllStateInfo(){
 		List<StateModel> stateList = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -296,8 +284,6 @@ public class DAO {
 
 		StateModel state = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
@@ -327,8 +313,6 @@ public class DAO {
 		// FIXME: need to find a way to use "distinct" 
 		List<StateModel> stateList = null;
 
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
 			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
 

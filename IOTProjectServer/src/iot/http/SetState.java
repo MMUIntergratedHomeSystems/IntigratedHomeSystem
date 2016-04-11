@@ -72,7 +72,7 @@ public class SetState extends HttpServlet {
 		if (state.getDeviceID() != null){
 			responceObj = mqttServer.send(state.getDeviceID(), state.getState());
 		} else {
-			responceObj.setSucsess(false);
+			responceObj.setSuccess(false);
 			responceObj.setMessage("No device details sent");
 		}
 	}

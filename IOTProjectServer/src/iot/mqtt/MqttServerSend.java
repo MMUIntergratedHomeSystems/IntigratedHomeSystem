@@ -82,22 +82,22 @@ public class MqttServerSend implements MqttCallback {
 							dao.registerDevice(device);
 
 							// Update the response
-							responce.setSucsess(true);
-							responce.setMessage(device.getDeviceID()+": Request sent sucsessfuly");
+							responce.setSuccess(true);
+							responce.setMessage(device.getDeviceID()+": Request sent successfuly");
 						} else {
-							responce.setSucsess(false);
+							responce.setSuccess(false);
 							responce.setMessage(device.getDeviceID()+": Unknwon error: "+token.getException());
 						}
 					} else {
-						responce.setSucsess(false);
+						responce.setSuccess(false);
 						responce.setMessage(device.getName()+": Device is not connected");
 					}
 				} else {
-					responce.setSucsess(false);
+					responce.setSuccess(false);
 					responce.setMessage(device.getName()+": No state specified");
 				}
 			} else {
-				responce.setSucsess(false);
+				responce.setSuccess(false);
 				responce.setMessage(device.getName()+": Device is not registerd");
 			}
 
@@ -109,7 +109,7 @@ public class MqttServerSend implements MqttCallback {
 			System.out.println("excep "+me);
 			me.printStackTrace();
 			
-			responce.setSucsess(false);
+			responce.setSuccess(false);
 			responce.setMessage(device.getName()+": Unknown error "+me);
 		}
 		return responce;
