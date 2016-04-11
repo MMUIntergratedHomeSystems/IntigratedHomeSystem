@@ -21,6 +21,7 @@ public class IHS_Api {
     }
 
 
+
     //Callable methods
     public void getDevicesList() {
         new GetDevicesRequest().execute();

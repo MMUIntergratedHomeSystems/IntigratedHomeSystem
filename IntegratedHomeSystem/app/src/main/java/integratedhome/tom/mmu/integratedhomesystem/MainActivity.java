@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
         api.getDevicesList();
+
     }
 
     public void updateDevicesList(JSONArray devices){

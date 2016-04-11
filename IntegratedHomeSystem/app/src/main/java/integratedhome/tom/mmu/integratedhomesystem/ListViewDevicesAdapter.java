@@ -155,7 +155,7 @@ public class ListViewDevicesAdapter extends BaseAdapter {
             cell.typeImg.setImageResource(typeimage);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+    }
 
 
         return convertView;

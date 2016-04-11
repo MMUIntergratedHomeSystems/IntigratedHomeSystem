@@ -143,7 +143,6 @@ public class JSONParser {
 
         conn.disconnect();
 
-        // try parse the string to a JSON object
         return result.toString();
     }
 
