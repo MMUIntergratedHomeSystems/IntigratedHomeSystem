@@ -26,11 +26,13 @@ import iot.models.StateModel;
 /**
  * Data Access Object for the server
  */
-public class DAO {
+public class DAO implements DAOInterface{
 	// Array of device types that publish information to the server, 
 	// used in MqttServerReceive to record the data sent. 
 	public String pubDevices[] = {"Thermostat"};
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+	
 	
 
 	/**
@@ -45,9 +47,7 @@ public class DAO {
 		}	
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query findPubDevice;
-
 			findPubDevice = new Query(new Criteria().orOperator(orCriteriaList.toArray(new Criteria[orCriteriaList.size()])));
 			System.out.println(findPubDevice.toString());
 

@@ -17,16 +17,17 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import iot.dao.DAO;
+import iot.dao.DAOInterface;
 import iot.models.DeviceModel;
 import iot.models.StateModel;
 
 public class MqttServerReceive{
-	//final String mqttServer = "tcp://localhost:1883";
-	final String mqttServer = "tcp://52.88.194.67:1883";
+	final String mqttServer = "tcp://localhost:1883";
+	//final String mqttServer = "tcp://52.88.194.67:1883";
 	final String clientId = "serverReceive";
 	StateModel stateObj;
 	MqttClient client;
-	DAO dao = new DAO();
+	DAOInterface DAO = new DAO();
 	Timer timer = new Timer();
 	ArrayList<DeviceModel> pubDevices;
 	// Hash maps to compare between updates
@@ -75,7 +76,7 @@ public class MqttServerReceive{
 	 */
 	public void addTopics() throws MqttException {		
 		// Get a list of currently connected publishing devices
-		pubDevices = new ArrayList<DeviceModel>(dao.getPubDeviceInfo());
+		pubDevices = new ArrayList<DeviceModel>(DAO.getPubDeviceInfo());
 		String currentTopic;
 		previousTopicsMap = new HashMap<String, String>(currentTopicsMap);
 		currentTopicsMap.clear();
@@ -132,8 +133,8 @@ public class MqttServerReceive{
 					// Update DB
 					StateModel stateObj = new StateModel(devices.getDeviceID(), state, new Date());
 					devices.setCurrentState(state);
-					dao.updateState(stateObj);
-					dao.registerDevice(devices);
+					DAO.updateState(stateObj);
+					DAO.registerDevice(devices);
 					// Break out of loop once found
 					break;
 				}

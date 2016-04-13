@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import iot.dao.DAO;
+import iot.dao.DAOInterface;
 import iot.models.DeviceModel;
 import iot.models.ResponseModel;
 
@@ -20,6 +21,7 @@ public class SetDevice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	HttpUtils utils = new HttpUtils();
 	Gson gson = new Gson();
+	DAOInterface DAO = new DAO();
 	ResponseModel responceObj = new ResponseModel(false, "Unknown Error");
 
 	/**
@@ -33,7 +35,7 @@ public class SetDevice extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DAO DAO = new DAO();
+		
 		// Get values from parameters
 		String deviceID = request.getParameter("deviceID");
 		String houseID = request.getParameter("houseID");
@@ -61,10 +63,8 @@ public class SetDevice extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new Gson();
-		DeviceModel device;
-		DAO DAO = new DAO();
 
+		DeviceModel device;
 		Map<String, String[]> allMap=request.getParameterMap();
 		for(String key:allMap.keySet()){
 			String[] strArr=(String[])allMap.get(key);

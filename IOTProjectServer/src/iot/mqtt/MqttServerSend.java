@@ -13,6 +13,7 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import iot.dao.DAO;
+import iot.dao.DAOInterface;
 import iot.models.DeviceModel;
 import iot.models.ResponseModel;
 import iot.models.StateModel;
@@ -25,6 +26,7 @@ public class MqttServerSend implements MqttCallback {
 	final int qos = 0;
 	public ResponseModel responce;
 	public DeviceModel device;
+	DAOInterface DAO = new DAO();
 
 	public MqttServerSend(){
 		super();
@@ -38,13 +40,12 @@ public class MqttServerSend implements MqttCallback {
 	 */
 	public ResponseModel send(String deviceID, String state){
 		responce = new ResponseModel(false, deviceID+": Unknown Error");
-		DAO dao = new DAO();
 		RMIClient rmiClient = new RMIClient();
 		try {
 			// Check that the device is registered
 			// and maybe add a registered boolean?
-			if (dao.getDeviceInfo(deviceID)!=null){
-				device = dao.getDeviceInfo(deviceID);
+			if (DAO.getDeviceInfo(deviceID)!=null){
+				device = DAO.getDeviceInfo(deviceID);
 				if (state != null){
 					// Check the device is connected to the MQTT server
 					if (rmiClient.isDeviceConncted(deviceID)){
@@ -78,8 +79,8 @@ public class MqttServerSend implements MqttCallback {
 							// Update the device object and state
 							StateModel stateObj = new StateModel(device.getDeviceID(), state, new Date());
 							device.setCurrentState(state);
-							dao.updateState(stateObj);
-							dao.registerDevice(device);
+							DAO.updateState(stateObj);
+							DAO.registerDevice(device);
 
 							// Update the response
 							responce.setSuccess(true);

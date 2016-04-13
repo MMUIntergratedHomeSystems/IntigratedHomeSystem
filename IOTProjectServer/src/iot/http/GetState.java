@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import iot.dao.DAO;
+import iot.dao.DAOInterface;
 import iot.models.StateModel;
 
 @WebServlet("/getState")
@@ -32,7 +33,7 @@ public class GetState extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		DAO DAO = new DAO();
+		DAOInterface DAO = new DAO();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String deviceID = request.getParameter("deviceID");
 		String log = request.getParameter("log");

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import iot.dao.DAO;
+import iot.dao.*;
 import iot.models.DeviceModel;
 
 @WebServlet("/getDevice")
@@ -31,7 +31,7 @@ public class GetDevice extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		DAO DAO = new DAO();
+		DAOInterface DAO = new DAO();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String deviceID = request.getParameter("deviceID");
 		String output = null;

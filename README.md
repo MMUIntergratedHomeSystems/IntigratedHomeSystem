@@ -1,1 +1,1 @@
-# IntigratedHomeSystem
+# Integrated Home System

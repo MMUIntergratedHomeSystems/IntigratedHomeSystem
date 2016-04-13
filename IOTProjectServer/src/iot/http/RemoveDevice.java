@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import iot.dao.DAO;
+import iot.dao.DAOInterface;
 
 @WebServlet("/removeDevice")
 public class RemoveDevice extends HttpServlet {
@@ -27,7 +28,7 @@ public class RemoveDevice extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DAO DAO = new DAO();
+		DAOInterface DAO = new DAO();
 		
 		// Get values from parameters
 		String deviceID = request.getParameter("deviceID");
