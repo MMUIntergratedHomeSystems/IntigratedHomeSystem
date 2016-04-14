@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document()
+@Document(collection = "State")
 public class StateModel {
 	String deviceID;
 	String state;

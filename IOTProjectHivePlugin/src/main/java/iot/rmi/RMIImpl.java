@@ -16,7 +16,7 @@ public class RMIImpl implements RMIInterface {
 	Logger log = LoggerFactory.getLogger(RMIImpl.class);
 	public ClientService clientService;
 
-	public RMIImpl(String msg, ClientService clientService) throws RemoteException {
+	public RMIImpl(ClientService clientService) throws RemoteException {
 		super();
 		this.clientService = clientService;
 		log.info("Plugin class");

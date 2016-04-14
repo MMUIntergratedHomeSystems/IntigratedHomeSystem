@@ -1,0 +1,29 @@
+//=========== RMI Stuff ===============
+grant codeBase "file:${catalina.home}/webapps/IOTProjectServer/WEB-INF/classes/-" {
+        permission java.security.AllPermission;
+
+        permission java.net.SocketPermission "*:1024-65535", "connect,accept,resolve,listen";
+        permission java.net.SocketPermission "*:80", "connect";
+        permission java.net.SocketPermission "*:900", "connect,accept,resolve,listen";
+        permission java.io.FilePermission, "file:///opt/hivemq/plugins/-";
+        permission java.io.FilePermission, "file:///opt/hivemq/bin/-";
+};
+
+grant codeBase "file:${catalina.home}/webapps/IOTProjectServer/WEB-INF/lib/-" {
+        permission java.security.AllPermission;
+
+        permission java.net.SocketPermission "*:1024-65535", "connect,accept,resolve,listen";
+        permission java.net.SocketPermission "*:80", "connect";
+        permission java.net.SocketPermission "*:900", "connect,accept,resolve,listen";
+        permission java.io.FilePermission, "file:///opt/hivemq/plugins/-";
+        permission java.io.FilePermission, "file:///opt/hivemq/bin/-";
+};
+
+grant codeBase "file:///opt/hivemq/bin/-"{
+  permission java.security.AllPermission;
+
+  permission java.net.SocketPermission "*:1024-65535", "connect,accept,resolve,listen";
+        permission java.net.SocketPermission "*:80", "connect";
+        permission java.net.SocketPermission "*:900", "connect,accept,resolve,listen";
+};
+

@@ -27,7 +27,7 @@ public class MainClass extends PluginEntryPoint{
 	
 	@Inject
 	public MainClass(final ClientService clientService, final ClientConnect clientConnect, final ClientDisconnect clientDisconnect){
-		log.info("Intelligent Home Plugin.");
+		log.info("Integrated Home Plugin.");
 		this.clientService = clientService;
 		this.clientConnect = clientConnect;
 		this.clientDisconnect = clientDisconnect;
@@ -50,7 +50,7 @@ public class MainClass extends PluginEntryPoint{
 	public void startRMI(){
 		RMIImpl impl;
 		try {
-			impl = new RMIImpl("somthing", clientService);
+			impl = new RMIImpl(clientService);
 			RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(impl, 0);
 			Registry registry = LocateRegistry.getRegistry();
 			registry.rebind("HivePlugin", stub);			

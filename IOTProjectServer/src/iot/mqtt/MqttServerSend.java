@@ -23,7 +23,7 @@ public class MqttServerSend implements MqttCallback {
 	final String mqttServer = "tcp://localhost:1883";
 	//final String mqttServer = "tcp://52.88.194.67:1883";
 	final String clientId = "serverSend";
-	final int qos = 0;
+	final int qos = 1;
 	public ResponseModel responce;
 	public DeviceModel device;
 	DAOInterface DAO = new DAO();
@@ -84,10 +84,10 @@ public class MqttServerSend implements MqttCallback {
 
 							// Update the response
 							responce.setSuccess(true);
-							responce.setMessage(device.getDeviceID()+": Request sent successfuly");
+							responce.setMessage(device.getDeviceID()+": Request sent successfully");
 						} else {
 							responce.setSuccess(false);
-							responce.setMessage(device.getDeviceID()+": Unknwon error: "+token.getException());
+							responce.setMessage(device.getDeviceID()+": Unknown error: "+token.getException());
 						}
 					} else {
 						responce.setSuccess(false);
@@ -99,7 +99,7 @@ public class MqttServerSend implements MqttCallback {
 				}
 			} else {
 				responce.setSuccess(false);
-				responce.setMessage(device.getName()+": Device is not registerd");
+				responce.setMessage(device.getName()+": Device is not registered");
 			}
 
 		} catch(MqttException | RemoteException | NotBoundException me) {

@@ -6,7 +6,7 @@ import com.hivemq.spi.plugin.meta.Information;
 import com.hivemq.spi.HiveMQPluginModule;
 import com.hivemq.spi.PluginEntryPoint;
 
-@Information(name = "HiveMQ Intelligent Home Plugin", author = "Ed Bullick", version = "3.0.0")
+@Information(name = "HiveMQ Integrated Home Plugin", author = "Ed Bullick", version = "3.0.0")
 public class Module extends HiveMQPluginModule{
 
 	@Override
