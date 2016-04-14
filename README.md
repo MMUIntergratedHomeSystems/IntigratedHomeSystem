@@ -10,7 +10,7 @@ Skip the blueprint
 Name the Lambda Function "IntegratedHome".
 Select the runtime as Java 8
 Import this project into Eclipse as an existing Maven Project.
-Go to the the samples/ directory containing pom.xml, and run 'mvn assembly:assembly -DdescriptorId=jar-with-dependencies package'. This will generate a zip file named "alexa-skills-kit-samples-1.0-jar-with-dependencies.jar" in the target directory.
+Go to the the samples/ directory containing pom.xml, and run 'mvn assembly:assembly -DdescriptorId=jar-with-dependencies package'. This will generate a zip file named "IntegratedHomeProject-1.0-jar-with-dependencies.jar" in the target directory.
 Select Code entry type as "Upload a .ZIP file" and then upload the "IntegratedHomeProject-1.0-jar-with-dependencies.jar" file from the build directory to Lambda
 Set the Handler as integratedHomeProject.IntegratedHomeSpeechletRequestStreamHandler (this refers to the Lambda RequestStreamHandler file in the zip).
 Create a basic execution role and click create.
@@ -34,9 +34,14 @@ Your skill is now saved and once you are finished testing you can continue to pu
 Example:
 
 User: "Alexa, ask Integrated Home." 
+
 Alexa: "Welcome to Integrated Home,These are the things Integrated Home can do. Check what devices are turned on. Turn on a device, turn off a device. To check what devices are on say, retrieve. To turn off or turn on a device say, turn off or turn on followed by the device name. For example to turn off light 1 say turn off light 1."
+
 User: "turn on white light."
+
 Alexa: "I will change the state for white light. To confirm change say YES."
+
 User: "yes"
+
 Alexa: white light is now OFF. Goodbye.
 
