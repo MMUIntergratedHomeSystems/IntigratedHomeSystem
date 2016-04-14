@@ -1,7 +1,7 @@
-Setup
+#Setup
 To run this skill you need to do two things. The first is to deploy the code in lambda, and the second is to configure the Alexa skill to use Lambda.
 
-AWS Lambda Setup
+#AWS Lambda Setup
 1.Go to the AWS Console and click on the Lambda link. Note: ensure you are in us-east or you wont be able to use Alexa with Lambda. 
 
 2.Click on the Create a Lambda Function or Get Started Now button. Skip the blueprint Name the Lambda Function "IntegratedHome".
@@ -24,7 +24,7 @@ AWS Lambda Setup
 
 11.Click Submit. Copy the ARN from the top right to be used later in the Alexa Skill Setup. 
 
-Alexa Skill Setup
+#Alexa Skill Setup
 1.Go to the Alexa Console and click Add a New Skill. 
 
 2.Set "Integrated Home" as the skill name and "integrated home" as the invocation name, this is what is used to activate your skill. 
@@ -49,7 +49,7 @@ Alexa Skill Setup
 
 12.Your skill is now saved and once you are finished testing you can continue to publish your skill.
 
-Example:
+#Example:
 User: "Alexa, ask Integrated Home."
 
 Alexa: "Welcome to Integrated Home, These are the things Integrated Home can do. Check what devices are turned on. Turn on a device, turn off a device. To check what devices are on say, retrieve. To turn off or turn on a device say, turn off or turn on followed by the device name. For example, to turn off light 1 say turn off light 1."
