@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 
 public class DeviceUtils {
 	static String baseUrl = "http://52.88.194.67:8080/IOTProjectServer";  
+	static Gson gson = new Gson();
+	static DeviceObject device;
+	
 	public static DeviceObject getinfo(String deviceID) throws IOException
 	{
 		
@@ -30,9 +33,7 @@ public class DeviceUtils {
 			}
 			in.close();
 			
-			// create object from JSON response
-			Gson gson = new Gson();
-			DeviceObject device;
+			// create object from JSON response			
 			device = gson.fromJson(response.toString(), DeviceObject.class);
 			
 		return device;		

@@ -21,9 +21,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
 	@Bean
 	public Mongo mongo() throws Exception {
 		// Can change to localhost when on server
-		return new MongoClient("52.88.194.67");
+		return new MongoClient("localhost");
 	}
 
 }
-
-

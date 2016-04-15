@@ -23,6 +23,7 @@ public class SetDevice extends HttpServlet {
 	Gson gson = new Gson();
 	DAOInterface DAO = new DAO();
 	ResponseModel responceObj = new ResponseModel(false, "Unknown Error");
+	DeviceModel device;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -49,7 +50,7 @@ public class SetDevice extends HttpServlet {
 		// TODO: make more robust, this is a temp solution to avoid empty inserts
 		if (deviceID != null){
 			// Create staff objects with parameters to send to the DAO
-			DeviceModel device = new DeviceModel(deviceID, houseID, name, manufacturer, location, type, connected, currentState);
+			device = new DeviceModel(deviceID, houseID, name, manufacturer, location, type, connected, currentState);
 			responceObj = DAO.registerDevice(device);
 		}
 
@@ -64,7 +65,6 @@ public class SetDevice extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		DeviceModel device;
 		Map<String, String[]> allMap=request.getParameterMap();
 		for(String key:allMap.keySet()){
 			String[] strArr=(String[])allMap.get(key);

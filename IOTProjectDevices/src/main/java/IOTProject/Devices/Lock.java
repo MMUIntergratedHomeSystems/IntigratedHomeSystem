@@ -25,6 +25,7 @@ public class Lock {
 	static String clientID= "lock1";//MqttClient.generateClientId()
 	static String mqttServer = "tcp://52.88.194.67:1883";
 	static int servoNumber = 0;
+	static DeviceObject device;
 
 	public static void main(String[] args) throws IOException, PhidgetException, MqttException{
 		// Create instance of the motor
@@ -32,7 +33,7 @@ public class Lock {
 		// Start the servo listener
 		startServoListeners();
 		// Get the registered information for the device
-		DeviceObject device = DeviceUtils.getinfo(clientID);
+		device = DeviceUtils.getinfo(clientID);
 
 		// Check that it is registered
 		if (device != null){

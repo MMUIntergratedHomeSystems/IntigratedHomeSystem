@@ -99,7 +99,7 @@ public class MqttServerSend implements MqttCallback {
 				}
 			} else {
 				responce.setSuccess(false);
-				responce.setMessage(device.getName()+": Device is not registered");
+				responce.setMessage("Device is not registered");
 			}
 
 		} catch(MqttException | RemoteException | NotBoundException me) {

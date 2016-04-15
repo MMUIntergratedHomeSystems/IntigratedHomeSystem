@@ -20,6 +20,7 @@ import iot.models.StateModel;
 public class GetState extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	HttpUtils utils = new HttpUtils();
+	DAOInterface DAO = new DAO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,7 +34,6 @@ public class GetState extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		DAOInterface DAO = new DAO();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String deviceID = request.getParameter("deviceID");
 		String log = request.getParameter("log");

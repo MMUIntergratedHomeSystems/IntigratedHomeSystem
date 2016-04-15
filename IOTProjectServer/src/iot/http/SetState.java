@@ -22,6 +22,7 @@ public class SetState extends HttpServlet {
 	HttpUtils utils = new HttpUtils();
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	ResponseModel responceObj = new ResponseModel(false, "Unknown Error");
+	StateModel stateObj;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -39,7 +40,7 @@ public class SetState extends HttpServlet {
 		String state = request.getParameter("state");
 
 		// Create staff objects with parameters to send to the DAO
-		StateModel stateObj = new StateModel(deviceID, state, null);
+		stateObj = new StateModel(deviceID, state, null);
 		sendToMqtt(stateObj);
 		
 		// Print output

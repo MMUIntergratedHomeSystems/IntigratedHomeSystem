@@ -72,11 +72,9 @@ public class DAO implements DAOInterface{
 		List<DeviceModel> DeviceList = null;
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			// Get all
 			DeviceList = mongoOperation.findAll(DeviceModel.class);
-			System.out.println("Number of entries"+ DeviceList.size());
 
 		} catch (BeansException e) {
 			e.printStackTrace();
@@ -99,7 +97,6 @@ public class DAO implements DAOInterface{
 		DeviceModel device = null;
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query searchDeviceID = new Query(Criteria.where("deviceID").is(deviceID));
 
@@ -129,12 +126,12 @@ public class DAO implements DAOInterface{
 
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
-			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
-			mongoOperation.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+			MongoTemplate mongoTemplate = (MongoTemplate) ctx.getBean("mongoTemplate");
+			mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED);
 			WriteResultChecking resultChecking = null;
-			mongoOperation.setWriteResultChecking(resultChecking);
+			mongoTemplate.setWriteResultChecking(resultChecking);
 			// save
-			mongoOperation.save(device);
+			mongoTemplate.save(device);
 
 //			// DEBUG: show number of entries
 //			List<DeviceModel> DeviceList = mongoOperation.findAll(DeviceModel.class);
@@ -164,12 +161,9 @@ public class DAO implements DAOInterface{
 	public ResponseModel removeDevice(String deviceID){
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
 			DeviceModel deviceToRemove = mongoOperation.findOne(findDevice, DeviceModel.class);
-
-			//System.out.println("\n\nDevice To Remove: "+deviceToRemove+"\n\n");
 
 			// Remove from db
 			mongoOperation.remove(deviceToRemove);
@@ -197,7 +191,6 @@ public class DAO implements DAOInterface{
 	public ResponseModel updateState(StateModel state){
 		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			// save
 			mongoOperation.save(state);
 
@@ -229,7 +222,6 @@ public class DAO implements DAOInterface{
 		List<StateModel> stateList = null;
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
@@ -256,7 +248,6 @@ public class DAO implements DAOInterface{
 		List<StateModel> stateList = null;
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query searchState = new Query();
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
@@ -285,7 +276,6 @@ public class DAO implements DAOInterface{
 		StateModel state = null;
 
 		try {
-			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
@@ -314,8 +304,6 @@ public class DAO implements DAOInterface{
 		List<StateModel> stateList = null;
 
 		try {
-			MongoTemplate mongoOperation = (MongoTemplate) ctx.getBean("mongoTemplate");
-
 
 			//BasicDBObject dbObj = new BasicDBObject();
 

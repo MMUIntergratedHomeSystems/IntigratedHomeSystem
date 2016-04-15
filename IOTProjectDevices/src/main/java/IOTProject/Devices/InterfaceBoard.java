@@ -25,6 +25,7 @@ public class InterfaceBoard implements MqttCallback {
 	Timer timer = new Timer();
 	// 5 mins
 	int refresh = 300;
+	DeviceObject device;
 
 	public static void main(String[] args) throws PhidgetException, IOException, MqttException{
 		new InterfaceBoard();
@@ -49,7 +50,7 @@ public class InterfaceBoard implements MqttCallback {
 		for (int i=0; i<clientListLeds.size(); i++){
 			System.out.println(clientListLeds.get(i));
 			// Get the registered information for the device
-			DeviceObject device = DeviceUtils.getinfo(clientListLeds.get(i));
+			device = DeviceUtils.getinfo(clientListLeds.get(i));
 
 			// Check that it is registered
 			if (device != null){
@@ -65,7 +66,7 @@ public class InterfaceBoard implements MqttCallback {
 		for (int i=0; i<clientListActuators.size(); i++){
 			System.out.println(clientListActuators.get(i));
 			// Get the registered information for the device
-			DeviceObject device = DeviceUtils.getinfo(clientListActuators.get(i));
+			device = DeviceUtils.getinfo(clientListActuators.get(i));
 
 			// Check that it is registered
 			if (device != null){

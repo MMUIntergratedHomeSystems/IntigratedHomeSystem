@@ -19,6 +19,8 @@ import iot.models.DeviceModel;
 public class GetDevice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	HttpUtils utils = new HttpUtils();
+	DAOInterface DAO = new DAO();
+	DeviceModel device;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -31,13 +33,12 @@ public class GetDevice extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		DAOInterface DAO = new DAO();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String deviceID = request.getParameter("deviceID");
 		String output = null;
 		
 		if (deviceID != null){
-			DeviceModel device = DAO.getDeviceInfo(deviceID);
+			device = DAO.getDeviceInfo(deviceID);
 			output = gson.toJson(device);
 		} else {
 			List<DeviceModel> device = DAO.getAllDeviceInfo();
