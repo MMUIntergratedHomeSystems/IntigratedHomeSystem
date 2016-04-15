@@ -32,6 +32,11 @@ public class DAO implements DAOInterface{
 	public String pubDevices[] = {"Thermostat"};
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+	List<DeviceModel> DeviceList = null;
+	DeviceModel device = null;
+	ResponseModel responce = new ResponseModel(false, "Unknown error");
+	List<StateModel> stateList = null;
+	StateModel state = null;
 	
 	
 
@@ -39,7 +44,6 @@ public class DAO implements DAOInterface{
 	 * @return - Returns a List of connected publishing DeviceModel's info stored in the database
 	 */
 	public List<DeviceModel> getPubDeviceInfo(){
-		List<DeviceModel> DeviceList = null;
 		List<Criteria> orCriteriaList = new ArrayList<Criteria>();
 		for (String pubs: pubDevices) {
 			Criteria c1 = Criteria.where("type").is(pubs).and("connected").is(true);
@@ -69,8 +73,6 @@ public class DAO implements DAOInterface{
 	 * @return - Returns a List of all DeviceModel info stored in the database
 	 */
 	public List<DeviceModel> getAllDeviceInfo(){
-		List<DeviceModel> DeviceList = null;
-
 		try {
 
 			// Get all
@@ -93,9 +95,6 @@ public class DAO implements DAOInterface{
 	 * @return - Return a single DeviceModel info stored in the database
 	 */
 	public DeviceModel getDeviceInfo(String deviceID){
-
-		DeviceModel device = null;
-
 		try {
 
 			Query searchDeviceID = new Query(Criteria.where("deviceID").is(deviceID));
@@ -124,7 +123,6 @@ public class DAO implements DAOInterface{
 		// Save registered device could do with better error 
 		// checking need to look into how to get more info back from mongo
 
-		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			MongoTemplate mongoTemplate = (MongoTemplate) ctx.getBean("mongoTemplate");
 			mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED);
@@ -159,7 +157,6 @@ public class DAO implements DAOInterface{
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel removeDevice(String deviceID){
-		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
@@ -189,7 +186,6 @@ public class DAO implements DAOInterface{
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel updateState(StateModel state){
-		ResponseModel responce = new ResponseModel(false, "Unknown error");
 		try {
 			// save
 			mongoOperation.save(state);
@@ -219,8 +215,6 @@ public class DAO implements DAOInterface{
 	 * @return
 	 */
 	public List<StateModel> getStateInfo(String deviceID){
-		List<StateModel> stateList = null;
-
 		try {
 
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
@@ -272,9 +266,6 @@ public class DAO implements DAOInterface{
 	 * @return
 	 */
 	public StateModel getLastStateInfo(String deviceID){
-
-		StateModel state = null;
-
 		try {
 
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
@@ -301,7 +292,6 @@ public class DAO implements DAOInterface{
 	 */
 	public List<StateModel> getAllLastStateInfo(){
 		// FIXME: need to find a way to use "distinct" 
-		List<StateModel> stateList = null;
 
 		try {
 
