@@ -1,0 +1,22 @@
+MyDEVICEIsIntent turn off {DEVICE}
+MyDEVICEIsIntent turn on {DEVICE}
+MyDEVICEIsIntent lock {DEVICE}
+MyDEVICEIsIntent unlock {DEVICE}
+MyDEVICEIsIntent set {DEVICE}
+
+WhatsMyDEVICEIntent confirm
+WhatsMyDEVICEIntent yes
+WhatsMyDEVICEIntent okay
+WhatsMyDEVICEIntent sure
+
+GetState get state
+GetState retrieve
+
+GetHistory get history
+GetHistory history
+GetHistory all device history
+
+AMAZON.StopIntent no
+AMAZON.StopIntent nope
+AMAZON.StopIntent no thanks
+AMAZON.StopIntent no thank you

@@ -1,0 +1,35 @@
+{
+  "intents": [
+    {
+      "intent": "GetState"
+    },
+    {
+      "intent": "GetHistory"
+    },
+    {
+      "intent": "MyDEVICEIsIntent",
+      "slots": [
+        {
+          "name": "DEVICE",
+          "type": "LIST_OF_DEVICES"
+        },
+        {
+          "name": "Thermostat",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "WhatsMyDEVICEIntent"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+White Light
+Yellow Light
+Green Light
+RequestTest
+test3
+FullTest
+Living Room Thermostat
+Kitchen Thermostat
