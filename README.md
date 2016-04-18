@@ -1,1 +1,5 @@
+<<<<<<< .mine
 IntegratedHomeSystem
+=======
+# IntegratedHomeSystem
+>>>>>>> .theirs
