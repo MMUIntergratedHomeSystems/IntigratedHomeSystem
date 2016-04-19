@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Test page</TITLE>
+<style type="text/css">
+.container {
+	font-family: Verdana, Geneva, sans-serif;
+	width: 500px;
+	clear: both;
+}
+
+.container input {
+	font-family: Verdana, Geneva, sans-serif;
+	width: 100%;
+	clear: both;
+}
+</style>
+</HEAD>
+<BODY>
+	<div class="container">
+		<fieldset>
+			<h3>Add Device</h3>
+			<form action="./registerDevice">
+				<label>DeviceID:</label><input type="text" name="deviceID"><br />
+				<label>HouseID:</label><input type="text" name="houseID"><br />
+				<label>Name:</label><input type="text" name="name"><br /> 
+				<label>Manufacturer:</label><input type="text" name="manufacturer"><br /> 
+				<label>Location:</label><input type="text" name="location"><br /> 
+				<label>Type:</label><input type="text" name="type"><br />
+				<label>Connected:</label><input type="text" name="connected"><br />
+				<label>Current State:</label><input type="text" name="currentState"><br />
+				<p />
+				<input type="submit" value="Add Device">
+			</form>
+		</fieldset>
+		<p />
+		<p />
+		<fieldset>
+			<h3>Remove Device</h3>
+			<form action="./removeDevice">
+				<label>DeviceID:</label><input type="text" name="deviceID"><br />
+				<p />
+				<input type="submit" value="Remove Device">
+			</form>
+		</fieldset>
+		<p />
+		<p />
+		<fieldset>
+			<h3>Set State</h3>
+			<form action="./setState">
+				<label>DeviceID:</label><input type="text" name="deviceID"><br />
+				<label>State:</label><input type="text" name="state"><br />
+				<p />
+				<input type="submit" value="Set State">
+			</form>
+		</fieldset>
+	</div>
+</BODY>
+</HTML>
