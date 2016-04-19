@@ -68,7 +68,7 @@ public class IHS_Api {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
-                boolean success = json.getBoolean("sucsess");
+                boolean success = json.getBoolean("success");
                 if (!success) {
                     String message = json.getString("message");
                     uiController.makeError(message);
