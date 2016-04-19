@@ -30,8 +30,6 @@ public class DAO implements DAOInterface{
 	// Array of device types that publish information to the server, 
 	// used in MqttServerReceive to record the data sent. 
 	public String pubDevices[] = {"Thermostat"};
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 	List<DeviceModel> DeviceList = null;
 	DeviceModel device = null;
 	ResponseModel responce = new ResponseModel(false, "Unknown error");
@@ -44,6 +42,7 @@ public class DAO implements DAOInterface{
 	 * @return - Returns a List of connected publishing DeviceModel's info stored in the database
 	 */
 	public List<DeviceModel> getPubDeviceInfo(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		List<Criteria> orCriteriaList = new ArrayList<Criteria>();
 		for (String pubs: pubDevices) {
 			Criteria c1 = Criteria.where("type").is(pubs).and("connected").is(true);
@@ -51,6 +50,7 @@ public class DAO implements DAOInterface{
 		}	
 
 		try {
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query findPubDevice;
 			findPubDevice = new Query(new Criteria().orOperator(orCriteriaList.toArray(new Criteria[orCriteriaList.size()])));
 			System.out.println(findPubDevice.toString());
@@ -73,8 +73,9 @@ public class DAO implements DAOInterface{
 	 * @return - Returns a List of all DeviceModel info stored in the database
 	 */
 	public List<DeviceModel> getAllDeviceInfo(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			// Get all
 			DeviceList = mongoOperation.findAll(DeviceModel.class);
 
@@ -95,8 +96,9 @@ public class DAO implements DAOInterface{
 	 * @return - Return a single DeviceModel info stored in the database
 	 */
 	public DeviceModel getDeviceInfo(String deviceID){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query searchDeviceID = new Query(Criteria.where("deviceID").is(deviceID));
 
 			// find the device
@@ -122,7 +124,8 @@ public class DAO implements DAOInterface{
 	public ResponseModel registerDevice(DeviceModel device){
 		// Save registered device could do with better error 
 		// checking need to look into how to get more info back from mongo
-
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
 			MongoTemplate mongoTemplate = (MongoTemplate) ctx.getBean("mongoTemplate");
 			mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED);
@@ -157,8 +160,10 @@ public class DAO implements DAOInterface{
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel removeDevice(String deviceID){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query findDevice = new Query(Criteria.where("deviceID").is(deviceID));
 			DeviceModel deviceToRemove = mongoOperation.findOne(findDevice, DeviceModel.class);
 
@@ -186,7 +191,10 @@ public class DAO implements DAOInterface{
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel updateState(StateModel state){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			// save
 			mongoOperation.save(state);
 
@@ -215,8 +223,10 @@ public class DAO implements DAOInterface{
 	 * @return
 	 */
 	public List<StateModel> getStateInfo(String deviceID){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
@@ -240,9 +250,10 @@ public class DAO implements DAOInterface{
 	 */
 	public List<StateModel> getAllStateInfo(){
 		List<StateModel> stateList = null;
-
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query searchState = new Query();
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
@@ -266,8 +277,10 @@ public class DAO implements DAOInterface{
 	 * @return
 	 */
 	public StateModel getLastStateInfo(String deviceID){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			Query searchState = new Query(Criteria.where("deviceID").is(deviceID));
 			searchState.with(new Sort(new Order(Direction.DESC,"dateStored")));
 
@@ -292,9 +305,10 @@ public class DAO implements DAOInterface{
 	 */
 	public List<StateModel> getAllLastStateInfo(){
 		// FIXME: need to find a way to use "distinct" 
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 
 		try {
-
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			//BasicDBObject dbObj = new BasicDBObject();
 
 
