@@ -66,10 +66,10 @@ public class Lock {
 				System.out.println("Message arrived: "+payload);
 				if (payload.equals("0")){
 					System.out.println("unlock");
-					moveServoTo(0);
+					moveServoTo(40);
 				} else if (payload.equals("1")){
 					System.out.println("lock");
-					moveServoTo(180);
+					moveServoTo(220);
 				} else {
 					System.out.println("Unknown state");
 				}

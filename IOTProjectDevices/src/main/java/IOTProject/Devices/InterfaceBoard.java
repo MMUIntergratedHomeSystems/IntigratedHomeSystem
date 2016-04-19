@@ -24,7 +24,7 @@ public class InterfaceBoard implements MqttCallback {
 	private static ArrayList<String> clientListActuators = new ArrayList<String>();
 	Timer timer = new Timer();
 	// 5 mins
-	int refresh = 300;
+	int refresh = 30;
 	DeviceObject device;
 
 	public static void main(String[] args) throws PhidgetException, IOException, MqttException{
@@ -38,13 +38,16 @@ public class InterfaceBoard implements MqttCallback {
 		interfaceKit.waitForAttachment();
 
 		// Add LEDS deviceID's
-		clientListLeds.add("whitelight1");
-		clientListLeds.add("yellowlight1");	
-		clientListLeds.add("greenlight1");
+		clientListLeds.add("light0"); // Bathroom
+		clientListLeds.add("light1"); // Closet
+		clientListLeds.add("light2"); // Bedroom
+		clientListLeds.add("light3"); // Bedroom lamp
+		clientListLeds.add("light4"); // Living room
+		clientListLeds.add("light5"); // Kitchen
 
 		// Add Actuator deviceID's
 		clientListActuators.add("thermostat1");
-		clientListActuators.add("thermostat2");
+//		clientListActuators.add("thermostat2");
 
 		// Initialise LEDS 
 		for (int i=0; i<clientListLeds.size(); i++){
