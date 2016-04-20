@@ -47,8 +47,8 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 			+ "Turn on a device, "
 			+ "turn off a device. "
 			+ "To check what devices are on say, retrieve. "
-			+ "To turn off or turn on a device say, turn off or turn on followed by the device name. "
-			+ "For example to turn off light 1 say turn off light 1";
+			+ "To turn off or turn on a device, say turn off or turn on followed by the device name. "
+			+ "For example, to turn off living room light, say turn off living room light";
 	private static final String DEVICE_KEY = "DEVICE";
 	private static final String DEVICE_SLOT = "DEVICE";
 
@@ -90,24 +90,21 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 		// will be rendered;
 		// rather, the intent specific response will be returned.
 		if ("GetState".equals(intentName)) {
-			String speechOutput = GetState() + options;
-			String repromptText = "Do you want more";
+			String speechOutput = GetState();
+			String repromptText = "Is there anything else I can do for you.";
 
 			return getSpeechletResponse(speechOutput, repromptText, true);
 		} else if ("GetHistory".equals(intentName)) {
 			String speechOutput = GetHistory();
-			String speechoutput = speechOutput.toString();
 			String repromptText = "Do you want more";
-			return getSpeechletResponse(speechoutput, repromptText, true);
+			return getSpeechletResponse(speechOutput, repromptText, true);
 		} else if ("MyDEVICEIsIntent".equals(intentName)) {
 			return setDEVICEInSession(intent, session);
 		} else if ("WhatsMyDEVICEIntent".equals(intentName)) {
 			return changeState(intent, session);
 		} else if ("AMAZON.HelpIntent".equals(intentName)) {
 			// Create the plain text output.
-			String speechOutput = "With Integrated Home, you can check"
-					+ " devices that are switched on or turn them on or off. "
-					+ options;
+			String speechOutput = options;
 
 			String repromptText = "What do you want to do now? " + options;
 
@@ -209,13 +206,14 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 		// Check to make sure user's DEVICE is set in the session.
 		if (StringUtils.isNotEmpty(favoriteDEVICE)) {
 			State = changeState(deviceID, state, favoriteDEVICE);
-			speechText = String.format("%s has now %s. Goodbye.",
+			speechText = String.format("%s is now %s. Do you want me to do any thing else for you?",
 					favoriteDEVICE, State);
+			isAskResponse = true;
 		} else {
 			// Since the user's DEVICE is not set render an error
 			// message.
-			speechText = "I'm not sure what you DEVICE you asked me to turn on or off. You can tell me to turn off or turn on a device "
-					+ "by saying, turn off light 1 or turn on light 1";
+			speechText = "I'm not sure what you asked me to do. Please choose one of the following options. "
+					+ options;
 			isAskResponse = true;
 		}
 
@@ -224,7 +222,7 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 
 	private String changeState(String deviceID, String state,
 			String favoriteDEVICE) {
-		String State;
+		String State = null;
 		// URL for getting all details
 		// Get HttpResponse Object from url.
 		// Get HttpEntity from Http Response Object
@@ -255,6 +253,7 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 				e.printStackTrace();
 			}
 		}
+		String type =null;
 		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
 				if (favoriteDEVICE.equalsIgnoreCase(jsonArray.getJSONObject(i)
@@ -262,18 +261,18 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 					deviceID = jsonArray.getJSONObject(i).getString("deviceID");
 					state = jsonArray.getJSONObject(i)
 							.getString("currentState");
+					 type = jsonArray.getJSONObject(i)
+							.getString("type");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if (state.equals("1")) {
-			state = "0";
-			State = "OFF";
-		} else {
-			state = "1";
-			State = "ON";
+			if (type.equals("Lock")) {
+				State = "Locked";
+			} else if (!type.equals("Lock")){
+				State = "ON";
 		}
 		try {
 			// Default HttpClient
@@ -351,20 +350,31 @@ public class IntegratedHomeSpeechlet implements Speechlet {
 				e.printStackTrace();
 			}
 		}
-		String name = null, type = null, state = null, result = "", State = null;
+		String name = null, type = null, result = "", State = null;
 		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
-				name = jsonArray.getJSONObject(i).getString("name");
-				type = jsonArray.getJSONObject(i).getString("type");
-				state = jsonArray.getJSONObject(i).getString("currentState");
-				if (state.equals("1"))
-					State = "OFF";
-				else
-					State = "ON";
 
-				result = result
-						+ (name + ", is a " + type + " and it is currently "
-								+ State + ". ");
+				if (jsonArray.getJSONObject(i).getString("currentState")
+						.equals("1")
+						|| !jsonArray.getJSONObject(i).getString("currentState").equals("0")) {
+					name = jsonArray.getJSONObject(i).getString("name");
+					type = jsonArray.getJSONObject(i).getString("type");
+					if (jsonArray.getJSONObject(i).getString("type")
+							.equals("Lock")) {
+						State = "Locked";
+					} else if (jsonArray.getJSONObject(i).getString("type")
+							.equals("Thermostat")) {
+						State = "at, "
+								+ jsonArray.getJSONObject(i).getString(
+										"currentState") + " degrees";
+					} else {
+						State = "ON";
+					}
+					result = result
+							+ (name + ", is a " + type + " and it is currently "
+									+ State + ". ");
+				}
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
