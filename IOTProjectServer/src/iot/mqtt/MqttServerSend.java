@@ -46,7 +46,7 @@ public class MqttServerSend implements MqttCallback {
 			// and maybe add a registered boolean?
 			if (DAO.getDeviceInfo(deviceID)!=null){
 				device = DAO.getDeviceInfo(deviceID);
-				if (state != null){
+				if (!state.isEmpty()){
 					// Check the device is connected to the MQTT server
 					if (rmiClient.isDeviceConncted(deviceID)){
 						// Construct the MQTT address
