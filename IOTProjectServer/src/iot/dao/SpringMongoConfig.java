@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
+/**
+ * Class that stores database information
+ *
+ */
 @Configuration
 @Service("SpringMongoConfig")
 public class SpringMongoConfig extends AbstractMongoConfiguration {

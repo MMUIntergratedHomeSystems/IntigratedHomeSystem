@@ -31,6 +31,12 @@ public class InterfaceBoard implements MqttCallback {
 		new InterfaceBoard();
 	}
 
+	/**
+	 * Method to initialise all the connected devices on the interface board
+	 * @throws PhidgetException
+	 * @throws IOException
+	 * @throws MqttException
+	 */
 	public InterfaceBoard() throws PhidgetException, IOException, MqttException{
 		// open interface board and start listening for sensor input
 		interfaceKit = new InterfaceKitPhidget();
@@ -82,7 +88,9 @@ public class InterfaceBoard implements MqttCallback {
 		}
 	}
 	
-	// Timer for sending actuator values
+	/**
+	 * Timer for sending actuator values
+	 */
 	class UpdateTask extends TimerTask {
 		private final int inputPort;
 		private final String topic;
@@ -94,6 +102,9 @@ public class InterfaceBoard implements MqttCallback {
 			this.client = client;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.util.TimerTask#run()
+		 */
 		public void run() {
 			try {
 				updateActuators(inputPort, topic, client);
@@ -107,6 +118,13 @@ public class InterfaceBoard implements MqttCallback {
 		}
 	}	
 
+	/**
+	 * Method to connect each actuator to the MQTT server. 
+	 * @param topic - Topic to subscribe to.
+	 * @param clientID - Client ID of the device
+	 * @throws MqttException
+	 * @throws PhidgetException
+	 */
 	private void startMqttActuator(String topic, String clientID) throws MqttException, PhidgetException {
 		int input = clientListActuators.indexOf(clientID);
 		MqttClient client = new MqttClient( 
@@ -119,6 +137,15 @@ public class InterfaceBoard implements MqttCallback {
 		updateActuators(input, topic, client);
 	}
 
+	/**
+	 * Method to get the state of the actuators to send to the database.
+	 * @param inputPort - Input port the device is connected to.
+	 * @param topic - Topic to publish to.
+	 * @param client - Client ID of device.
+	 * @throws PhidgetException
+	 * @throws MqttPersistenceException
+	 * @throws MqttException
+	 */
 	public void updateActuators(int inputPort, String topic, MqttClient client) throws PhidgetException, MqttPersistenceException, MqttException {	
 				System.out.println(clientListActuators.get(inputPort)+": "+interfaceKit.getSensorValue(inputPort));
 				MqttTopic mqttAddress = client.getTopic(topic);
@@ -133,8 +160,8 @@ public class InterfaceBoard implements MqttCallback {
 
 	/**
 	 * Used for starting LED devices
-	 * @param topic
-	 * @param clientID
+	 * @param topic - Topic to subscribe to.
+	 * @param clientID - Client ID of the device.
 	 * @throws MqttException
 	 */
 	public static void startMqttLeds(String topic, String clientID) throws MqttException{

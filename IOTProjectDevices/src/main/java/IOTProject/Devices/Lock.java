@@ -27,6 +27,13 @@ public class Lock {
 	static int servoNumber = 0;
 	static DeviceObject device;
 
+	/**
+	 * Method to initialise the lock
+	 * @param args
+	 * @throws IOException
+	 * @throws PhidgetException
+	 * @throws MqttException
+	 */
 	public static void main(String[] args) throws IOException, PhidgetException, MqttException{
 		// Create instance of the motor
 		servo = new AdvancedServoPhidget();
@@ -45,6 +52,11 @@ public class Lock {
 		}
 	}
 	
+	/**
+	 * Method to connect the device to the MQTT server.
+	 * @param topic - Topic to subscribe to.
+	 * @throws MqttException
+	 */
 	public static void startMqtt(String topic) throws MqttException{
 		MqttClient client = new MqttClient( 
 				mqttServer, //URI 
@@ -82,6 +94,10 @@ public class Lock {
 		});
 	}
 
+	/**
+	 * Method to move the motor to specified position
+	 * @param position - Position to move the motor to.
+	 */
 	public static void moveServoTo(int position) {
 		// Method to move motor to indicated position
 		System.out.println("Move motor to "+position);

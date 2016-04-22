@@ -5,6 +5,11 @@ import iot.models.DeviceModel;
 import iot.models.ResponseModel;
 import iot.models.StateModel;
 
+
+/**
+ * Interface for the DAO
+ *
+ */
 public interface DAOInterface {
 
 	public List<DeviceModel> getPubDeviceInfo();

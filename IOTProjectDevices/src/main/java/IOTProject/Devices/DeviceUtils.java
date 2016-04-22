@@ -13,6 +13,12 @@ public class DeviceUtils {
 	static Gson gson = new Gson();
 	static DeviceObject device;
 	
+	/**
+	 * Method to connected to the database to retrieve information about the device.
+	 * @param deviceID - Device ID to search for.
+	 * @return - DeviceModel
+	 * @throws IOException
+	 */
 	public static DeviceObject getinfo(String deviceID) throws IOException
 	{
 		

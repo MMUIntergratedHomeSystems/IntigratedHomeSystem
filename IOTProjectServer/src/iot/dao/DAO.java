@@ -39,7 +39,8 @@ public class DAO implements DAOInterface{
 	
 
 	/**
-	 * @return - Returns a List of connected publishing DeviceModel's info stored in the database
+	 * DAO method that returns connected publishing devices information that is stored in the database.
+	 * @return - List of DeviceModels.
 	 */
 	public List<DeviceModel> getPubDeviceInfo(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -70,7 +71,8 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @return - Returns a List of all DeviceModel info stored in the database
+	 * DAO method that returns all information about devices that is stored in the database.
+	 * @return - List of all DeviceModels.
 	 */
 	public List<DeviceModel> getAllDeviceInfo(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -92,8 +94,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param deviceID
-	 * @return - Return a single DeviceModel info stored in the database
+	 * DAO method that returns information about a device that is stored in the database.
+	 * @param deviceID - Device ID to search for.
+	 * @return - Single DeviceModel.
 	 */
 	public DeviceModel getDeviceInfo(String deviceID){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -117,8 +120,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param device
-	 * @return
+	 * DAO method that persists device information to the database.
+	 * @param device - Device information to store.
+	 * @return - ResonceModel.
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel registerDevice(DeviceModel device){
@@ -155,8 +159,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param device
-	 * @return
+	 * DAO method that removes device information from the database.
+	 * @param deviceID - Device ID to remove.
+	 * @return - ResonceModel.
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel removeDevice(String deviceID){
@@ -186,8 +191,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param state
-	 * @return
+	 * DAO method that persists state information to the database.
+	 * @param state - State information to store.
+	 * @return - ResonceModel.
 	 */
 	@SuppressWarnings("finally")
 	public ResponseModel updateState(StateModel state){
@@ -219,8 +225,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param deviceID
-	 * @return
+	 * DAO method that returns all state information stored for a device.
+	 * @param deviceID - Device ID to get information for.
+	 * @return - List of StateModels.
 	 */
 	public List<StateModel> getStateInfo(String deviceID){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -246,7 +253,8 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @return
+	 * DAO Method that returns all state information for all devices. 
+	 * @return - List of StateModels.
 	 */
 	public List<StateModel> getAllStateInfo(){
 		List<StateModel> stateList = null;
@@ -273,8 +281,9 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param deviceID
-	 * @return
+	 * DAO method to return last known state information about a device.
+	 * @param deviceID - Device ID to search for.
+	 * @return - StateModel.
 	 */
 	public StateModel getLastStateInfo(String deviceID){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -300,8 +309,8 @@ public class DAO implements DAOInterface{
 	}
 
 	/**
-	 * @param deviceID
-	 * @return
+	 * DAO method to return last known state information for all devices **NOTE Currently not working
+	 * @return - List of StateModels
 	 */
 	public List<StateModel> getAllLastStateInfo(){
 		// FIXME: need to find a way to use "distinct" 
